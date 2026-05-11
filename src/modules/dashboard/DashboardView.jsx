@@ -4,24 +4,24 @@ import { AuditPanel } from "./components/AuditPanel.jsx";
 import { RecordsPanel } from "./components/RecordsPanel.jsx";
 import { MetricCard } from "../../shared/ui/MetricCard.jsx";
 import { StatusPill } from "../../shared/ui/StatusPill.jsx";
+import { useI18n } from "../../shared/i18n/I18nContext.jsx";
 
 export function DashboardView({ apiState, metrics, roleMatrix, modules, onRefreshApi, token }) {
+  const { t } = useI18n();
+  const text = t.dashboard;
   const apiSummary = apiState.data?.summary;
 
   return (
     <div className="view-stack">
       <section className="hero-panel">
         <div>
-          <p className="eyebrow">Operacion integral</p>
-          <h1>PCD Pro centraliza competencia, identidad, evidencia y sustentabilidad.</h1>
-          <p>
-            Base preparada para convertir el informe funcional en una plataforma real para
-            ligas, clubes, arbitros, cuerpos tecnicos, profesionales, sponsors y jugadores.
-          </p>
+          <p className="eyebrow">{text.heroEyebrow}</p>
+          <h1>{text.heroTitle}</h1>
+          <p>{text.heroCopy}</p>
         </div>
         <div className="hero-actions" aria-label="Acciones principales">
-          <button className="button primary">Crear torneo</button>
-          <button className="button secondary">Auditar jornada</button>
+          <button className="button primary">{text.createTournament}</button>
+          <button className="button secondary">{text.auditMatchday}</button>
         </div>
       </section>
 
@@ -34,29 +34,29 @@ export function DashboardView({ apiState, metrics, roleMatrix, modules, onRefres
       <section className="panel">
         <div className="section-title">
           <div>
-            <p className="eyebrow">Backend local</p>
-            <h2>API inicial de PCD Pro</h2>
+            <p className="eyebrow">{text.backendEyebrow}</p>
+            <h2>{text.backendTitle}</h2>
           </div>
           <StatusPill tone={apiState.status === "connected" ? "success" : "warning"}>
-            {apiState.status === "connected" ? "Conectada" : "Esperando API"}
+            {apiState.status === "connected" ? text.connected : text.waitingApi}
           </StatusPill>
         </div>
         {apiState.status === "connected" ? (
           <div className="api-grid">
-            <ApiItem label="Usuarios" value={apiSummary.users} />
-            <ApiItem label="Roles" value={apiSummary.roles} />
-            <ApiItem label="Ligas" value={apiSummary.leagues} />
-            <ApiItem label="Clubes" value={apiSummary.clubs} />
-            <ApiItem label="Torneos" value={apiSummary.tournaments} />
-            <ApiItem label="Jugadores" value={apiSummary.players} />
-            <ApiItem label="Partidos" value={apiSummary.matches} />
-            <ApiItem label="Disciplina" value={apiSummary.disciplinaryCases} />
-            <ApiItem label="Juego DT" value={apiSummary.gameChallenges} />
-            <ApiItem label="Auditoria" value={apiSummary.auditLogs} />
+            <ApiItem label={text.users} value={apiSummary.users} />
+            <ApiItem label={text.roles} value={apiSummary.roles} />
+            <ApiItem label={text.leagues} value={apiSummary.leagues} />
+            <ApiItem label={text.clubs} value={apiSummary.clubs} />
+            <ApiItem label={text.tournaments} value={apiSummary.tournaments} />
+            <ApiItem label={text.players} value={apiSummary.players} />
+            <ApiItem label={text.matches} value={apiSummary.matches} />
+            <ApiItem label={text.discipline} value={apiSummary.disciplinaryCases} />
+            <ApiItem label={text.game} value={apiSummary.gameChallenges} />
+            <ApiItem label={text.audit} value={apiSummary.auditLogs} />
           </div>
         ) : (
           <p className="api-message">
-            Inicia el backend con <code>npm.cmd run api</code> para ver datos servidos desde
+            {text.backendHelp} <code>npm.cmd run api</code> {text.backendHelpEnd}
             <code> http://127.0.0.1:4000/api</code>.
           </p>
         )}
@@ -79,24 +79,24 @@ export function DashboardView({ apiState, metrics, roleMatrix, modules, onRefres
         <article className="panel">
           <div className="section-title">
             <div>
-              <p className="eyebrow">Prioridad de producto</p>
-              <h2>Nucleo que debe construirse primero</h2>
+              <p className="eyebrow">{text.productPriority}</p>
+              <h2>{text.firstCore}</h2>
             </div>
             <StatusPill tone="success">MVP</StatusPill>
           </div>
           <div className="timeline">
-            <Step icon={Layers3} title="Modelo territorial" text="Ligas, clubes, categorias, torneos y sedes." />
-            <Step icon={CheckCircle2} title="Partido oficial" text="Fixture, arbitro, eventos, cierre y tablas automaticas." />
-            <Step icon={CircleAlert} title="Integridad" text="Disciplina, evidencias, resoluciones y auditoria." />
-            <Step icon={CircleDollarSign} title="Valor comercial" text="Scouting, pagos, streaming y sponsors con metricas." />
+            <Step icon={Layers3} title={text.territorialModel} text={text.territorialModelText} />
+            <Step icon={CheckCircle2} title={text.officialMatch} text={text.officialMatchText} />
+            <Step icon={CircleAlert} title={text.integrity} text={text.integrityText} />
+            <Step icon={CircleDollarSign} title={text.commercialValue} text={text.commercialValueText} />
           </div>
         </article>
 
         <article className="panel">
           <div className="section-title">
             <div>
-              <p className="eyebrow">Permisos</p>
-              <h2>Matriz inicial de roles</h2>
+              <p className="eyebrow">{text.permissions}</p>
+              <h2>{text.roleMatrix}</h2>
             </div>
             <StatusPill>RBAC</StatusPill>
           </div>
@@ -114,15 +114,17 @@ export function DashboardView({ apiState, metrics, roleMatrix, modules, onRefres
       <section className="panel">
         <div className="section-title">
           <div>
-            <p className="eyebrow">Mapa funcional</p>
-            <h2>Modulos de la version pro</h2>
+            <p className="eyebrow">{text.functionalMap}</p>
+            <h2>{text.proModules}</h2>
           </div>
-          <StatusPill tone="info">{modules.length} modulos</StatusPill>
+          <StatusPill tone="info">
+            {modules.length} {text.modulesCount}
+          </StatusPill>
         </div>
         <div className="module-map">
           {modules.slice(1).map((module) => (
             <article key={module.id}>
-              <strong>{module.name}</strong>
+              <strong>{t.modules[module.id] ?? module.name}</strong>
               <span>{module.outcome}</span>
             </article>
           ))}

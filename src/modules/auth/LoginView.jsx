@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { loginUser } from "../../shared/api/client.js";
+import { useI18n } from "../../shared/i18n/I18nContext.jsx";
+import { LanguageSelector } from "../../shared/ui/LanguageSelector.jsx";
 import { Logo } from "../../shared/ui/Logo.jsx";
 
 export function LoginView({ onLogin }) {
+  const { t } = useI18n();
   const [email, setEmail] = useState("admin@pcd.local");
   const [password, setPassword] = useState("pcd-demo-2026");
   const [status, setStatus] = useState({ type: "idle", message: "" });
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setStatus({ type: "loading", message: "Ingresando..." });
+    setStatus({ type: "loading", message: t.entering });
 
     try {
       const session = await loginUser({ email, password });
@@ -25,9 +28,10 @@ export function LoginView({ onLogin }) {
         <div className="login-mark">
           <Logo size={58} />
         </div>
-        <p className="eyebrow">Acceso privado</p>
-        <h1>PCD Pro</h1>
-        <p>Ingresa con una cuenta autorizada para administrar la plataforma.</p>
+        <LanguageSelector />
+        <p className="eyebrow">{t.privateAccess}</p>
+        <h1>{t.platformName}</h1>
+        <p>{t.loginIntro}</p>
 
         <form className="login-form" onSubmit={handleSubmit}>
           <label>
@@ -40,7 +44,7 @@ export function LoginView({ onLogin }) {
             />
           </label>
           <label>
-            <span>Contrasena</span>
+            <span>{t.password}</span>
             <input
               autoComplete="current-password"
               type="password"
@@ -49,7 +53,7 @@ export function LoginView({ onLogin }) {
             />
           </label>
           <button className="button primary" disabled={status.type === "loading"} type="submit">
-            Entrar
+            {t.enter}
           </button>
           {status.message && <p className={`form-message ${status.type}`}>{status.message}</p>}
         </form>

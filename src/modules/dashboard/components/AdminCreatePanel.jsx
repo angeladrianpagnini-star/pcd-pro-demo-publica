@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { createRecord } from "../../../shared/api/client.js";
+import { useI18n } from "../../../shared/i18n/I18nContext.jsx";
 import { StatusPill } from "../../../shared/ui/StatusPill.jsx";
 
 const entityConfig = {
@@ -98,6 +99,8 @@ const entityConfig = {
 };
 
 export function AdminCreatePanel({ apiState, clubs, leagues, tournaments, onCreated, token }) {
+  const { t } = useI18n();
+  const text = t.admin;
   const [entityKey, setEntityKey] = useState("leagues");
   const [formValues, setFormValues] = useState(entityConfig.leagues.initialValues);
   const [submitState, setSubmitState] = useState({ status: "idle", message: "" });
@@ -128,7 +131,7 @@ export function AdminCreatePanel({ apiState, clubs, leagues, tournaments, onCrea
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setSubmitState({ status: "saving", message: "Guardando registro..." });
+    setSubmitState({ status: "saving", message: text.saving });
 
     try {
       const created = await createRecord(currentConfig.endpoint, formValues, token);
@@ -136,7 +139,7 @@ export function AdminCreatePanel({ apiState, clubs, leagues, tournaments, onCrea
       setFormValues(currentConfig.initialValues);
       setSubmitState({
         status: "success",
-        message: `${currentConfig.label} creado: ${created.name ?? created.id}`
+        message: `${text.entities[entityKey]} ${text.created}: ${created.name ?? created.id}`
       });
     } catch (error) {
       setSubmitState({
@@ -152,16 +155,16 @@ export function AdminCreatePanel({ apiState, clubs, leagues, tournaments, onCrea
     <section className="panel">
       <div className="section-title">
         <div>
-          <p className="eyebrow">Administracion inicial</p>
-          <h2>Crear registros desde el panel</h2>
+          <p className="eyebrow">{text.eyebrow}</p>
+          <h2>{text.title}</h2>
         </div>
         <StatusPill tone={isApiReady ? "success" : "warning"}>
-          {isApiReady ? "API lista" : "API requerida"}
+          {isApiReady ? text.apiReady : text.apiRequired}
         </StatusPill>
       </div>
 
       <div className="admin-create-layout">
-        <div className="entity-switcher" role="tablist" aria-label="Tipo de registro">
+        <div className="entity-switcher" role="tablist" aria-label={text.recordType}>
           {Object.entries(entityConfig).map(([key, config]) => (
             <button
               className={entityKey === key ? "active" : ""}
@@ -169,7 +172,7 @@ export function AdminCreatePanel({ apiState, clubs, leagues, tournaments, onCrea
               onClick={() => handleEntityChange(key)}
               type="button"
             >
-              {config.label}
+              {text.entities[key] ?? config.label}
             </button>
           ))}
         </div>
@@ -178,14 +181,14 @@ export function AdminCreatePanel({ apiState, clubs, leagues, tournaments, onCrea
           <div className="form-grid">
             {currentConfig.fields.map((field) => (
               <label key={field.name}>
-                <span>{field.label}</span>
+                <span>{text.fields[field.name] ?? field.label}</span>
                 {field.type === "select" ? (
                   <select
                     required
                     value={formValues[field.name]}
                     onChange={(event) => handleFieldChange(field.name, event.target.value, field.type)}
                   >
-                    <option value="">Seleccionar</option>
+                    <option value="">{text.select}</option>
                     {(sources[field.source] ?? []).map((option) => (
                       <option key={option.id} value={option.id}>
                         {option.name}
@@ -207,7 +210,7 @@ export function AdminCreatePanel({ apiState, clubs, leagues, tournaments, onCrea
 
           <div className="form-footer">
             <button className="button primary" disabled={!isApiReady || submitState.status === "saving"} type="submit">
-              Guardar {currentConfig.label}
+              {text.save} {text.entities[entityKey] ?? currentConfig.label}
             </button>
             {submitState.message && (
               <p className={`form-message ${submitState.status}`}>{submitState.message}</p>

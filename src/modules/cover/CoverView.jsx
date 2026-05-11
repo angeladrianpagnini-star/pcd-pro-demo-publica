@@ -1,21 +1,25 @@
 import coverImage from "../../assets/pcd-cover.png";
+import { useI18n } from "../../shared/i18n/I18nContext.jsx";
+import { LanguageSelector } from "../../shared/ui/LanguageSelector.jsx";
 import { Logo } from "../../shared/ui/Logo.jsx";
 
 export function CoverView({ onEnter }) {
+  const { t } = useI18n();
+
   return (
     <main className="cover-page">
       <img className="cover-image" src={coverImage} alt="" />
       <div className="cover-overlay" />
+      <div className="cover-language">
+        <LanguageSelector />
+      </div>
       <section className="cover-content">
         <Logo size={76} variant="light" />
-        <p className="eyebrow">Plataforma deportiva territorial</p>
-        <h1>PCD Pro</h1>
-        <p>
-          Competencias, identidad digital, datos deportivos, Juego DT y gestion institucional
-          en una sola herramienta profesional.
-        </p>
+        <p className="eyebrow">{t.coverEyebrow}</p>
+        <h1>{t.platformName}</h1>
+        <p>{t.coverCopy}</p>
         <button className="cover-button" onClick={onEnter} type="button">
-          Entrar a la plataforma
+          {t.coverCta}
         </button>
       </section>
     </main>

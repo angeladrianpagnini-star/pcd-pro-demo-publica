@@ -151,6 +151,31 @@ h3 {
   font-size: 13px;
 }
 
+.language-selector {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.language-selector.compact {
+  min-height: 36px;
+  grid-template-columns: auto 116px;
+  align-items: center;
+  gap: 8px;
+}
+
+.language-selector select {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 7px 9px;
+  background: #ffffff;
+  color: var(--ink);
+  font: inherit;
+}
+
 .button {
   min-height: 40px;
   border-radius: 8px;
@@ -210,6 +235,23 @@ h3 {
   width: min(760px, calc(100% - 40px));
   margin: 0 0 7vh 6vw;
   color: #ffffff;
+}
+
+.cover-language {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  z-index: 2;
+  width: 190px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(7, 16, 25, 0.68);
+  backdrop-filter: blur(10px);
+}
+
+.cover-language .language-selector {
+  color: #d9e3ed;
 }
 
 .cover-content .eyebrow {
@@ -814,6 +856,17 @@ h3 {
 
   .role-row {
     grid-template-columns: 1fr;
+  }
+
+  .language-selector.compact {
+    grid-template-columns: 1fr;
+  }
+
+  .cover-language {
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    width: auto;
   }
 
   .cover-content {

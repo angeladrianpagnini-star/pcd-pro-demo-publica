@@ -74,7 +74,7 @@ export const modules = [
       "Validar agente, partes, federacion y escribano",
       "Conservar paquete de evidencia con hash, QR y auditoria"
     ],
-    launchPath: "./federaltrust/"
+    launchPath: "./federaltrust/index.html"
   },
   {
     id: "identity",

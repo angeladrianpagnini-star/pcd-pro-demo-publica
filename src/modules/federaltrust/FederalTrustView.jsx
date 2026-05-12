@@ -98,7 +98,7 @@ export function FederalTrustView() {
             evidencia verificable.
           </p>
           <div className="federaltrust-actions">
-            <a className="silver-action primary" href="./federaltrust/">
+            <a className="silver-action primary" href="./federaltrust/index.html">
               Abrir experiencia FederalTrust
             </a>
             <a className="silver-action" href="./federaltrust/strategy.html">

@@ -53,6 +53,30 @@ export const modules = [
     flows: ["Ver KPIs generales", "Auditar actividad", "Priorizar modulos"]
   },
   {
+    id: "federaltrust",
+    name: "FederalTrust",
+    stage: "Confianza documental",
+    priority: "Alta",
+    description:
+      "Vertical de certificacion digital, trazabilidad legal, pasaporte documental deportivo y contratos federados.",
+    outcome:
+      "Integra evidencia verificable, hash, QR, cadena de custodia, validacion institucional y certificacion notarial dentro de PCD Pro.",
+    entities: [
+      "certification_cases",
+      "sports_passports",
+      "federated_contracts",
+      "notaries",
+      "audit_events"
+    ],
+    flows: [
+      "Abrir pasaporte documental deportivo",
+      "Construir o cargar contratos federados",
+      "Validar agente, partes, federacion y escribano",
+      "Conservar paquete de evidencia con hash, QR y auditoria"
+    ],
+    launchPath: "./federaltrust/"
+  },
+  {
     id: "identity",
     name: "Identidad digital",
     stage: "Seguridad y trazabilidad",

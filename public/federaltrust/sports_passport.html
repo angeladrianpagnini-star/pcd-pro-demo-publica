@@ -1,0 +1,337 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pasaporte documental deportivo</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<header>
+  <div class="brand">FederalTrust <span>Digital Certification<br>&amp; Legal Traceability</span></div>
+  <nav>
+    <a href="dashboard.html">Panel</a>
+    <a href="strategy.html">Abordaje</a>
+    <a href="sports_passport.html">Pasaporte</a>
+    <a href="institution_workspace.html">Mesa institucional</a>
+    <a href="sports_contracts.html">Deportivo</a>
+    <a href="agent_auth.html">Agente FIFA</a>
+    <a href="sports_repository.html">Contratos</a>
+    <a href="audit_trail.html">Auditoria</a>
+  </nav>
+</header>
+
+<div class="main">
+  <aside class="sidebar">
+    <h3>Pasaporte deportivo</h3>
+    <a href="#alta">Alta del deportista</a>
+    <a href="#documentos">Gestion documental</a>
+    <a href="#carga">Carga segura</a>
+    <a href="#repositorio">Repositorio</a>
+    <a href="institution_workspace.html">Mesa institucional</a>
+    <a href="#canal">Canal de gestion</a>
+    <a href="#trazabilidad">Trazabilidad</a>
+  </aside>
+
+  <section class="content">
+    <div class="page-title">
+      <div>
+        <h1>Pasaporte documental deportivo</h1>
+        <p>Modulo orientado a academias, escuelas y ligas de base para ordenar autorizaciones, salud, seguros, consentimiento familiar y respaldo probatorio antes de escalar a contratos profesionales.</p>
+        <p><strong>Mercado inicial:</strong> <span class="badge-neutral">academias</span> <span class="badge-neutral">escuelas de futbol</span> <span class="badge-neutral">ligas regionales</span></p>
+      </div>
+      <a class="btn" href="#alta">Iniciar ficha</a>
+    </div>
+
+    <div class="grid three">
+      <div class="card metric">
+        <strong>Menores</strong>
+        <span>Consentimiento familiar, autorizaciones y documentacion sensible bajo control.</span>
+      </div>
+      <div class="card metric">
+        <strong>Salud</strong>
+        <span>Apto medico, cobertura, restricciones, emergencias y vigencia documental.</span>
+      </div>
+      <div class="card metric">
+        <strong>Club / liga</strong>
+        <span>Inscripcion, categoria, temporada, seguros, sanciones y derivaciones.</span>
+      </div>
+    </div>
+
+    <div id="alta" class="card">
+      <h2>Alta orientativa del deportista</h2>
+      <div class="form-grid">
+        <div>
+          <label>Nombre del deportista</label>
+          <input id="passportAthleteName" value="Jugador/a demo">
+        </div>
+        <div>
+          <label>Documento</label>
+          <input id="passportAthleteId" value="DNI 00.000.000">
+        </div>
+        <div>
+          <label>Fecha de nacimiento</label>
+          <input id="passportBirthDate" value="2012-05-12">
+        </div>
+        <div>
+          <label>Institucion que inicia</label>
+          <input id="passportAcademy" value="Escuela deportiva piloto">
+        </div>
+        <div>
+          <label>Tipo de institucion iniciadora</label>
+          <select id="passportInstitutionType">
+            <option>Academia de futbol</option>
+            <option>Escuela deportiva</option>
+            <option>Club formativo</option>
+            <option>Club receptor</option>
+          </select>
+        </div>
+        <div>
+          <label>Categoria</label>
+          <select id="passportCategory">
+            <option>Infantil</option>
+            <option>Juvenil</option>
+            <option>Reserva / formativo avanzado</option>
+          </select>
+        </div>
+        <div>
+          <label>Responsable adulto</label>
+          <input id="passportTutor" value="Madre / Padre / Tutor">
+        </div>
+        <div>
+          <label>Email de notificacion</label>
+          <input id="passportEmail" value="familia.demo@correo.local">
+        </div>
+        <div>
+          <label>Institucion referencial</label>
+          <input id="passportReferenceInstitution" value="Liga regional / federacion de referencia">
+        </div>
+        <div>
+          <label>Email institucion referencial</label>
+          <input id="passportReferenceEmail" value="referencia.demo@liga.local">
+        </div>
+        <div>
+          <label>Canal de gestion</label>
+          <select id="passportChannel">
+            <option>Institucion inicia y comunica a liga</option>
+            <option>Liga revisa y observa</option>
+            <option>Liga aprueba y comunica validacion</option>
+            <option>Club observa documentacion y solicita correccion</option>
+            <option>Escribano certifica documentacion sensible</option>
+          </select>
+        </div>
+      </div>
+      <div class="toolbar">
+        <button type="button" onclick="savePassportProfile()">Guardar ficha demo</button>
+        <a class="btn btn-secondary" href="#documentos">Gestionar documentos</a>
+        <a class="btn btn-secondary" href="institution_workspace.html">Mesa institucional</a>
+        <a class="btn btn-secondary" href="sports_passport_document.html">Ver ficha documental</a>
+      </div>
+      <p class="muted" id="passportSaveStatus">Ficha en edicion. Al guardar se registra evento de alta y queda disponible para gestion documental.</p>
+    </div>
+
+    <div class="card">
+      <h2>Cierre comunicacional de cada iniciacion</h2>
+      <p>Toda alta, recepcion, observacion o validacion debe generar comunicacion al usuario y a la institucion referencial. Esto evita que el expediente quede informal o sin responsable operativo.</p>
+      <div class="grid three">
+        <div class="evidence-list">
+          <div><strong>Usuario / tutor:</strong> recibe estado, observaciones, pedidos de correccion y constancia de validacion.</div>
+        </div>
+        <div class="evidence-list">
+          <div><strong>Academia / escuela / club:</strong> conserva trazabilidad de la carga y de su responsabilidad inicial.</div>
+        </div>
+        <div class="evidence-list">
+          <div><strong>Institucion referencial:</strong> liga, federacion o autoridad vinculada recibe recepcion, observacion o aprobacion.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="documentos" class="grid two">
+      <div class="card">
+        <h2>Gestion documental requerida</h2>
+        <p>Desde este espacio se visualizan documentos, se detectan faltantes y se habilita carga segura cuando el tutor, academia, club o liga deben aportar nueva evidencia.</p>
+        <div class="passport-checklist">
+          <label><input type="checkbox" checked> Ficha de inscripcion deportiva <a href="sports_passport_document.html">Ver</a></label>
+          <label><input type="checkbox" checked> Autorizacion de madre, padre o tutor <a href="sports_passport_document.html">Ver</a></label>
+          <label><input type="checkbox"> Apto medico vigente <a href="#carga">Cargar</a> <a href="sports_passport_document.html">Ver muestra</a></label>
+          <label><input type="checkbox"> Cobertura de seguro / obra social <a href="#carga">Cargar</a> <a href="sports_passport_document.html">Ver muestra</a></label>
+          <label><input type="checkbox"> Consentimiento para viajes o torneos <a href="#carga">Cargar</a> <a href="sports_passport_document.html">Ver muestra</a></label>
+          <label><input type="checkbox"> Declaracion de responsabilidad civil <a href="#carga">Cargar</a> <a href="sports_passport_document.html">Ver muestra</a></label>
+          <label><input type="checkbox"> Registro de sanciones u observaciones <a href="sports_passport_document.html">Ver muestra</a></label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Niveles de control</h2>
+        <div class="validation-levels">
+          <div><strong>Nivel 1</strong><span>Ficha cargada y fechada.</span></div>
+          <div><strong>Nivel 2</strong><span>Identidad del deportista y tutor validada.</span></div>
+          <div><strong>Nivel 3</strong><span>Academia o escuela aprueba documentacion.</span></div>
+          <div><strong>Nivel 4</strong><span>Liga regional confirma habilitacion deportiva.</span></div>
+          <div><strong>Nivel 5</strong><span>Certificacion reforzada para casos sensibles.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="carga" class="card">
+      <h2>Carga segura de documento</h2>
+      <p>Ejemplo de carga para ficha medica, autorizacion, seguro o documento emitido por club/liga. La accion queda bloqueada hasta validar identidad del operador y coincidencia con la persona mencionada en el documento.</p>
+      <div class="form-grid">
+        <div>
+          <label>Tipo de documento a incorporar</label>
+          <select id="passportUploadType">
+            <option>Ficha medica / apto fisico</option>
+            <option>Autorizacion de tutor</option>
+            <option>Seguro / cobertura</option>
+            <option>Documento emitido por club</option>
+            <option>Documento emitido por liga</option>
+          </select>
+        </div>
+        <div>
+          <label>Responsable que carga</label>
+          <select id="passportUploadRole">
+            <option>Tutor del deportista</option>
+            <option>Academia / escuela</option>
+            <option>Club receptor</option>
+            <option>Liga regional</option>
+            <option>Escribano / certificador</option>
+          </select>
+        </div>
+        <div>
+          <label>Identidad declarada del operador</label>
+          <input id="passportOperatorIdentity" value="Madre / Padre / Tutor - DNI 11.111.111">
+        </div>
+        <div>
+          <label>Persona mencionada en el documento</label>
+          <input id="passportDocumentSubject" value="Jugador/a demo - DNI 00.000.000">
+        </div>
+        <div>
+          <label>Archivo</label>
+          <input id="passportUploadFile" type="file">
+        </div>
+        <div>
+          <label>Correo para notificacion de estado</label>
+          <input id="passportUploadEmail" value="familia.demo@correo.local">
+        </div>
+      </div>
+
+      <div class="passport-security-grid">
+        <label><input id="passportBiometric" type="checkbox"> Confirmar biometria demo del operador</label>
+        <label><input id="passportIdentityMatch" type="checkbox"> Validar coincidencia documento-persona</label>
+        <label><input id="passportSensitiveConsent" type="checkbox"> Aceptar tratamiento de dato sensible</label>
+        <label><input id="passportHashConsent" type="checkbox"> Registrar hash y evento de auditoria</label>
+      </div>
+
+      <div class="toolbar">
+        <button type="button" onclick="submitPassportDocument()">Incorporar a revision demo</button>
+        <a class="btn btn-secondary" href="sports_passport_document.html">Ver visor seguro</a>
+      </div>
+      <p class="muted" id="passportUploadStatus">Pendiente de autenticacion reforzada. Sin biometria y validacion de identidad, la herramienta no incorpora el documento.</p>
+    </div>
+
+    <div id="repositorio" class="card">
+      <h2>Repositorio documental del pasaporte</h2>
+      <p>El objetivo no es solo cargar archivos: cada documento queda visible, controlado por estado, trazado por evento y asociado a evidencia verificable.</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Documento</th>
+            <th>Responsable</th>
+            <th>Estado</th>
+            <th>Evidencia</th>
+            <th>Comunicacion</th>
+            <th>Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ficha de inscripcion deportiva</td>
+            <td>Academia</td>
+            <td><span class="badge-ok">Validado</span></td>
+            <td><span class="badge-ok">Hash + fecha</span></td>
+            <td>Usuario + institucion referencial</td>
+            <td><a class="btn btn-secondary" href="sports_passport_document.html">Ver documento</a></td>
+          </tr>
+          <tr>
+            <td>Autorizacion de tutor</td>
+            <td>Familia / tutor</td>
+            <td><span class="badge-pending">Firma pendiente</span></td>
+            <td><span class="badge-pending">Identidad + consentimiento</span></td>
+            <td>Usuario notificado</td>
+            <td><a class="btn btn-secondary" href="sports_passport_document.html">Ver documento</a></td>
+          </tr>
+          <tr>
+            <td>Apto medico vigente</td>
+            <td>Profesional / familia</td>
+            <td><span class="badge-neutral">Requerido</span></td>
+            <td><span class="badge-neutral">Pendiente</span></td>
+            <td>Pendiente de recepcion</td>
+            <td><a class="btn btn-secondary" href="sports_passport_document.html">Ver muestra</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="grid three">
+        <div class="evidence-list">
+          <div><strong>Cifrado:</strong> documentos protegidos en reposo y acceso por rol.</div>
+        </div>
+        <div class="evidence-list">
+          <div><strong>Integridad:</strong> hash SHA-256 y sello temporal por documento.</div>
+        </div>
+        <div class="evidence-list">
+          <div><strong>Trazabilidad:</strong> cada vista, firma, observacion y validacion queda auditada.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="canal" class="card">
+      <h2>Canal de gestion por roles</h2>
+      <div class="passport-roles">
+        <div>
+          <strong>Familia / tutor</strong>
+          <span>Carga datos, autoriza participacion, recibe notificaciones y firma consentimientos.</span>
+        </div>
+        <div>
+          <strong>Academia</strong>
+          <span>Controla documentacion inicial, observa faltantes y habilita participacion interna.</span>
+        </div>
+        <div>
+          <strong>Escuela / club</strong>
+          <span>Puede iniciar el expediente, adjuntar documentacion y recibir observaciones o validacion.</span>
+        </div>
+        <div>
+          <strong>Liga regional</strong>
+          <span>Valida inscripcion, categoria, pases, sanciones y aptitud documental.</span>
+        </div>
+        <div>
+          <strong>Escribano / certificador</strong>
+          <span>Interviene en autorizaciones sensibles, menores, viajes, poderes o conflictos documentales.</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="trazabilidad" class="card">
+      <h2>Tablero de avance del pasaporte</h2>
+      <div class="status-board">
+        <div class="status-step complete"><span></span><strong>Ficha creada</strong><small>Expediente PD-2026-0001</small></div>
+        <div class="status-step complete"><span></span><strong>Hash generado</strong><small>Ficha y autorizacion vinculadas</small></div>
+        <div class="status-step complete"><span></span><strong>Tutor notificado</strong><small>Email y consentimiento pendiente</small></div>
+        <div class="status-step pending"><span></span><strong>Apto medico</strong><small>Documento requerido</small></div>
+        <div class="status-step pending"><span></span><strong>Academia</strong><small>Revision en curso</small></div>
+        <div class="status-step pending"><span></span><strong>Liga regional</strong><small>En espera de derivacion</small></div>
+        <div class="status-step pending"><span></span><strong>Archivo QR</strong><small>Se emite al cerrar el paquete</small></div>
+      </div>
+      <ul class="timeline">
+        <li><strong>Alta de ficha</strong> Se registra deportista, tutor, academia, categoria y temporada.</li>
+        <li><strong>Carga documental</strong> Se incorporan consentimientos, salud, seguro y permisos.</li>
+        <li><strong>Observaciones</strong> Academia o liga pueden pedir correccion sin perder historial.</li>
+        <li><strong>Validacion</strong> Cada responsable deja decision, fecha, usuario y estado.</li>
+        <li><strong>Archivo verificable</strong> Se emite QR, hash y paquete de evidencia para consulta autorizada.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+</body>
+</html>
+
+

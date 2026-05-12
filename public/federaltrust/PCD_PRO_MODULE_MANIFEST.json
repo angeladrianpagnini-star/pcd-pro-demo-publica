@@ -1,0 +1,77 @@
+{
+  "module": "FederalTrust",
+  "targetHost": "PCD Pro",
+  "status": "prepared-for-integration",
+  "sourceRepository": "https://github.com/angeladrianpagnini-star/cdn-demo-publica",
+  "entrypoints": {
+    "static": "index.html",
+    "localServer": "server.js",
+    "recommendedMountPath": "/modules/federaltrust"
+  },
+  "assets": [
+    "assets/cover-cdn-sports.png",
+    "assets/logo-cdn.svg",
+    "assets/logo-cdn-mark.svg"
+  ],
+  "screens": {
+    "coreCertification": [
+      "dashboard.html",
+      "upload.html",
+      "document_list.html",
+      "document_preview.html",
+      "sign_process.html",
+      "certificate.html",
+      "hash_validation.html",
+      "blockchain_record.html",
+      "audit_trail.html"
+    ],
+    "notaryAndRegulator": [
+      "notaries.html",
+      "notary_workspace.html",
+      "notary_sign.html",
+      "regulator.html"
+    ],
+    "sportsContracts": [
+      "sports_contracts.html",
+      "agent_auth.html",
+      "sports_repository.html",
+      "sports_clause_builder.html",
+      "sports_parties.html",
+      "sports_document.html",
+      "sports_federation_review.html",
+      "sports_archive.html"
+    ],
+    "sportsPassport": [
+      "sports_passport.html",
+      "sports_passport_document.html",
+      "institution_workspace.html"
+    ],
+    "strategy": [
+      "strategy.html"
+    ]
+  },
+  "apiEndpoints": [
+    "GET /api/state",
+    "GET /api/case",
+    "PUT /api/case",
+    "POST /api/case/event",
+    "GET /api/sports-contract",
+    "PUT /api/sports-contract",
+    "POST /api/sports-contract/party",
+    "POST /api/sports-contract/sign",
+    "POST /api/sports-contract/action",
+    "GET /api/notaries",
+    "POST /api/notaries",
+    "POST /api/regulator/verify",
+    "POST /api/regulator/decision",
+    "GET /api/audit"
+  ],
+  "pcdProIntegrationTasks": [
+    "Mount static screens under the selected PCD Pro module route.",
+    "Replace local JSON persistence with PCD Pro backend services.",
+    "Add backend endpoints for sports passport data currently kept in localStorage.",
+    "Wire evidence hash, QR, timestamp and audit events to PCD Pro canonical services.",
+    "Apply PCD Pro authentication and role checks before enabling workflow actions.",
+    "Normalize workflow statuses and domain objects before production data migration."
+  ]
+}

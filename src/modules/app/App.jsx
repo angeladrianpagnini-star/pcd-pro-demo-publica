@@ -10,6 +10,7 @@ import {
   Gamepad2,
   HeartPulse,
   Radio,
+  ScrollText,
   ShieldCheck,
   Trophy,
   UsersRound
@@ -19,6 +20,7 @@ import { fetchBootstrap, IS_DEMO_MODE } from "../../shared/api/client.js";
 import { LoginView } from "../auth/LoginView.jsx";
 import { CoverView } from "../cover/CoverView.jsx";
 import { DashboardView } from "../dashboard/DashboardView.jsx";
+import { FederalTrustView } from "../federaltrust/FederalTrustView.jsx";
 import { ModuleView } from "../modules/ModuleView.jsx";
 import { Sidebar } from "../../shared/ui/Sidebar.jsx";
 import { Topbar } from "../../shared/ui/Topbar.jsx";
@@ -31,6 +33,7 @@ const iconMap = {
   matches: Activity,
   referees: ClipboardCheck,
   discipline: Gavel,
+  federaltrust: ScrollText,
   staff: Dumbbell,
   scouting: UsersRound,
   health: HeartPulse,
@@ -144,6 +147,8 @@ export function App() {
             onRefreshApi={refreshApiState}
             token={session.token}
           />
+        ) : activeModuleId === "federaltrust" ? (
+          <FederalTrustView />
         ) : (
           <ModuleView module={activeModule} />
         )}

@@ -135,6 +135,19 @@ const loaderRoles = [
   "administrador"
 ];
 
+const actionTypes = [
+  "carga biometrica",
+  "plan de entrenamiento",
+  "seguimiento de recuperacion",
+  "observacion tecnica",
+  "evaluacion psicologica",
+  "restriccion medica",
+  "reporte scouting",
+  "consentimiento o firma",
+  "revision institucional",
+  "alerta de riesgo"
+];
+
 const auditTrail = [
   ["PF Martin Costa", "carga biometrica", "validado por club", "Hash FT-8A92"],
   ["Dra. Paula Marino", "restriccion medica", "requiere firma medica", "Hash FT-4421"],
@@ -150,6 +163,28 @@ const contentTypes = [
   "Plan PF",
   "Reporte scouting",
   "Consentimiento / evidencia"
+];
+
+const accessModes = [
+  "Vista preliminar jugador/individuo",
+  "Vista preliminar institucion",
+  "Gestion institucional de jugador",
+  "Adhesion completa solicitada",
+  "Suscripto con login"
+];
+
+const tentativeModels = [
+  ["Modelo tentativo inicial", "Lectura generica con datos disponibles del ecosistema, ideal para percibir valor antes de adherirse."],
+  ["Modelo de impacto potencial", "Muestra que podria mejorar si suma biometria, planes, seguimiento profesional y evidencia validada."],
+  ["Modelo especifico suscripto", "Convierte la lectura generica en plan accionable con responsables, etapas, alertas y validacion."]
+];
+
+const subscriberSuggestions = [
+  "Convertir el perfil preliminar en plan especifico por objetivos y calendario.",
+  "Activar alertas de lesion, carga, recuperacion y caida de rendimiento.",
+  "Vincular reportes profesionales con FederalTrust para darles evidencia verificable.",
+  "Mostrar al club, tutor o institucion una presentacion fina del potencial y avances.",
+  "Cruzar scouting, salud, disciplina, partidos y Juego DT para aumentar el valor I.D.A."
 ];
 
 const initialWorkItems = [
@@ -259,9 +294,11 @@ function BarRow({ label, value, inverse = false }) {
 export function IdaEliteView() {
   const [activeTab, setActiveTab] = useState("access");
   const [selectedAthleteId, setSelectedAthleteId] = useState(athletes[0].id);
+  const [accessMode, setAccessMode] = useState(accessModes[0]);
   const selectedAthlete = athletes.find((athlete) => athlete.id === selectedAthleteId) ?? athletes[0];
   const [records, setRecords] = useState(initialBiometrics);
   const [biometricForm, setBiometricForm] = useState({
+    action: "carga biometrica",
     metric: "Recuperacion",
     value: "86%",
     delta: "+5%",
@@ -290,6 +327,7 @@ export function IdaEliteView() {
       {
         ...biometricForm,
         athlete: selectedAthlete.name,
+        action: biometricForm.action,
         validatedBy: biometricForm.role,
         score: Math.max(0, Math.min(100, Number(biometricForm.score) || 0))
       },
@@ -368,6 +406,16 @@ export function IdaEliteView() {
                   ))}
                 </select>
               </label>
+              <label>
+                Tipo de acceso autorizado
+                <select value={accessMode} onChange={(event) => setAccessMode(event.target.value)}>
+                  {accessModes.map((mode) => (
+                    <option key={mode} value={mode}>
+                      {mode}
+                    </option>
+                  ))}
+                </select>
+              </label>
               <div className="ida-access-card">
                 <div>
                   <strong>{selectedAthlete.name}</strong>
@@ -381,7 +429,26 @@ export function IdaEliteView() {
                   {` ${selectedAthlete.ecosystemSignals} senales`} ya disponibles en el ecosistema,
                   aunque el jugador o club todavia no haya activado la capa premium.
                 </p>
+                <div className="ida-action-row">
+                  <button className="button secondary" type="button">
+                    Solicitar vista preliminar
+                  </button>
+                  <button className="button primary" type="button">
+                    Solicitar adhesion completa
+                  </button>
+                </div>
               </div>
+            </div>
+            <div className="ida-preview-grid">
+              {tentativeModels.map(([title, detail], index) => (
+                <article key={title} className={index === 2 && accessMode === "Suscripto con login" ? "active" : ""}>
+                  <strong>{title}</strong>
+                  <p>{detail}</p>
+                  <StatusPill tone={index === 2 && accessMode === "Suscripto con login" ? "success" : "info"}>
+                    {index === 2 ? "especifico" : "preliminar"}
+                  </StatusPill>
+                </article>
+              ))}
             </div>
             <div className="ida-source-grid">
               {ecosystemInputs.map(([source, detail, score]) => (
@@ -405,6 +472,19 @@ export function IdaEliteView() {
               <ClipboardList size={22} />
             </div>
             <form className="ida-form">
+              <label>
+                Accion a cargar
+                <select
+                  value={biometricForm.action}
+                  onChange={(event) => setBiometricForm({ ...biometricForm, action: event.target.value })}
+                >
+                  {actionTypes.map((action) => (
+                    <option key={action} value={action}>
+                      {action}
+                    </option>
+                  ))}
+                </select>
+              </label>
               <label>
                 Responsable
                 <input
@@ -461,7 +541,14 @@ export function IdaEliteView() {
                 </div>
                 <ClipboardList size={22} />
               </div>
-              <form className="ida-form" onSubmit={saveWorkItem}>
+            <form className="ida-form" onSubmit={saveWorkItem}>
+                <div className="ida-value-callout">
+                  <strong>Modelo tentativo para {selectedAthlete.name}</strong>
+                  <p>
+                    Antes de la adhesion completa se muestra una lectura preliminar con valor percibido.
+                    Con login suscripto, el sistema transforma esa vista en plan especifico, accionable y trazable.
+                  </p>
+                </div>
                 <label>
                   Titulo
                   <input
@@ -523,6 +610,12 @@ export function IdaEliteView() {
                 <FileText size={22} />
               </div>
               <div className="ida-workflow-list">
+                <div className="ida-suggestion-panel">
+                  <strong>Sugerencias para potenciar el uso</strong>
+                  {subscriberSuggestions.map((suggestion) => (
+                    <p key={suggestion}>{suggestion}</p>
+                  ))}
+                </div>
                 {workItems.map((item) => (
                   <article key={`${item.title}-${item.owner}`}>
                     <div>

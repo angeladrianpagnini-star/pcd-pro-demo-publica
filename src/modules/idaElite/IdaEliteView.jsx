@@ -8,11 +8,13 @@ import {
   Database,
   Eye,
   FileText,
+  Fingerprint,
   Gauge,
   HeartPulse,
   KeyRound,
   LineChart,
   Lock,
+  Paperclip,
   Radar,
   ShieldCheck,
   Sparkles,
@@ -147,6 +149,15 @@ const actionTypes = [
   "consentimiento o firma",
   "revision institucional",
   "alerta de riesgo"
+];
+
+const attachmentTypes = [
+  "documento",
+  "archivo tecnico",
+  "imagen",
+  "video",
+  "consentimiento",
+  "evidencia FederalTrust"
 ];
 
 const auditTrail = [
@@ -318,6 +329,10 @@ export function IdaEliteView() {
   const [records, setRecords] = useState(initialBiometrics);
   const [biometricForm, setBiometricForm] = useState({
     action: "carga biometrica",
+    dataSubject: "jugador seleccionado",
+    referencedPlayer: athletes[0].name,
+    biometricLogin: "login biometrico verificado",
+    attachment: "documento",
     metric: "Recuperacion",
     value: "86%",
     delta: "+5%",
@@ -346,6 +361,7 @@ export function IdaEliteView() {
       {
         ...biometricForm,
         athlete: selectedAthlete.name,
+        referencedPlayer: biometricForm.referencedPlayer || selectedAthlete.name,
         action: biometricForm.action,
         validatedBy: biometricForm.role,
         score: Math.max(0, Math.min(100, Number(biometricForm.score) || 0))
@@ -601,11 +617,52 @@ export function IdaEliteView() {
             <div className="section-title">
               <div>
                 <p className="eyebrow">Registro de accion</p>
-                <h2>Quien carga y quien valida</h2>
+                <h2>Datos, jugador referido y evidencia</h2>
               </div>
               <ClipboardList size={22} />
             </div>
-            <form className="ida-form">
+            <div className="ida-secure-gate">
+              <Fingerprint size={22} />
+              <div>
+                <strong>Espacio habilitado solo con login biometrico y acceso autorizado</strong>
+                <p>
+                  Toda carga queda asociada al sujeto de datos, al jugador de referencia, al responsable,
+                  al rol habilitado y a la evidencia adjunta para auditoria FederalTrust.
+                </p>
+              </div>
+              <StatusPill tone="success">acceso sensible</StatusPill>
+            </div>
+            <form className="ida-form ida-action-form">
+              <label>
+                De quien son los datos
+                <select
+                  value={biometricForm.dataSubject}
+                  onChange={(event) => setBiometricForm({ ...biometricForm, dataSubject: event.target.value })}
+                >
+                  <option>jugador seleccionado</option>
+                  <option>jugador cargado por institucion</option>
+                  <option>jugador cargado por tutor/familia</option>
+                  <option>figura institucional</option>
+                  <option>institucion solicitante</option>
+                </select>
+              </label>
+              <label>
+                Jugador de referencia
+                <select
+                  value={biometricForm.referencedPlayer}
+                  onChange={(event) => {
+                    setBiometricForm({ ...biometricForm, referencedPlayer: event.target.value });
+                    const athlete = allAthletes.find((item) => item.name === event.target.value);
+                    if (athlete) setSelectedAthleteId(athlete.id);
+                  }}
+                >
+                  {allAthletes.map((athlete) => (
+                    <option key={athlete.id} value={athlete.name}>
+                      {athlete.name} - {athlete.club}
+                    </option>
+                  ))}
+                </select>
+              </label>
               <label>
                 Accion a cargar
                 <select
@@ -652,7 +709,56 @@ export function IdaEliteView() {
                   <option>solo auditoria interna</option>
                 </select>
               </label>
+              <label>
+                Estado de acceso
+                <select
+                  value={biometricForm.biometricLogin}
+                  onChange={(event) => setBiometricForm({ ...biometricForm, biometricLogin: event.target.value })}
+                >
+                  <option>login biometrico verificado</option>
+                  <option>pendiente de validacion biometrica</option>
+                  <option>acceso institucional autorizado</option>
+                  <option>bloqueado por permisos</option>
+                </select>
+              </label>
+              <label>
+                Tipo de adjunto
+                <select
+                  value={biometricForm.attachment}
+                  onChange={(event) => setBiometricForm({ ...biometricForm, attachment: event.target.value })}
+                >
+                  {attachmentTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="ida-file-drop">
+                <Paperclip size={18} />
+                Documentos, archivos o videos
+                <input accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.mp4,.mov,.csv,.xlsx" type="file" />
+                <span>Adjunto demo preparado para carga real, hash, QR y cadena de custodia.</span>
+              </label>
             </form>
+            <div className="ida-action-summary">
+              <div>
+                <span>Sujeto de datos</span>
+                <strong>{biometricForm.dataSubject}</strong>
+              </div>
+              <div>
+                <span>Jugador referido</span>
+                <strong>{biometricForm.referencedPlayer}</strong>
+              </div>
+              <div>
+                <span>Adjunto</span>
+                <strong>{biometricForm.attachment}</strong>
+              </div>
+              <div>
+                <span>Acceso</span>
+                <strong>{biometricForm.biometricLogin}</strong>
+              </div>
+            </div>
             <div className="ida-audit-list">
               {auditTrail.map(([person, action, status, hash]) => (
                 <article key={`${person}-${hash}`}>

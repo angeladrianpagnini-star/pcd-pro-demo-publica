@@ -702,6 +702,10 @@ h3 {
   grid-column: span 5;
 }
 
+.span-12 {
+  grid-column: 1 / -1;
+}
+
 .section-title {
   margin-bottom: 16px;
 }
@@ -1350,9 +1354,10 @@ h3 {
 
 .ida-access-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr) minmax(280px, 0.85fr);
-  gap: 14px;
-  margin-bottom: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 16px;
 }
 
 .ida-access-controls,
@@ -1362,10 +1367,23 @@ h3 {
 }
 
 .ida-access-layout label {
+  min-width: 0;
   align-content: start;
   color: var(--muted);
   font-size: 13px;
   font-weight: 800;
+}
+
+.ida-access-controls {
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ida-access-controls select,
+.ida-new-player input,
+.ida-new-player select {
+  width: 100%;
+  min-width: 0;
 }
 
 .ida-access-card {
@@ -1404,6 +1422,7 @@ h3 {
 .ida-action-row .button {
   flex: 1 1 180px;
   min-width: 0;
+  max-width: 260px;
   white-space: normal;
 }
 
@@ -1737,6 +1756,7 @@ h3 {
   .admin-create-layout,
   .federaltrust-hero,
   .ida-hero,
+  .span-12,
   .two-column .panel,
   .span-7,
   .span-5 {
@@ -1777,6 +1797,7 @@ h3 {
   .ida-preview-grid,
   .ida-preliminary-grid,
   .ida-access-layout,
+  .ida-access-controls,
   .ida-request-list article,
   .ida-context-strip {
     grid-template-columns: 1fr;

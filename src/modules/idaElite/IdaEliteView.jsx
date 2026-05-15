@@ -441,7 +441,7 @@ export function IdaEliteView() {
       {activeTab === "access" && (
         <>
           <section className="module-grid">
-            <article className="panel span-7 ida-panel">
+            <article className="panel span-12 ida-panel">
             <div className="section-title">
               <div>
                 <p className="eyebrow">Acceso controlado</p>
@@ -597,7 +597,7 @@ export function IdaEliteView() {
               ))}
             </div>
             </article>
-            <article className="panel span-5 ida-panel">
+            <article className="panel span-12 ida-panel">
             <div className="section-title">
               <div>
                 <p className="eyebrow">Registro de accion</p>

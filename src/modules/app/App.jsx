@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Activity,
   Banknote,
+  Brain,
   ChartNoAxesCombined,
   ClipboardCheck,
   Dumbbell,
@@ -21,6 +22,7 @@ import { LoginView } from "../auth/LoginView.jsx";
 import { CoverView } from "../cover/CoverView.jsx";
 import { DashboardView } from "../dashboard/DashboardView.jsx";
 import { FederalTrustView } from "../federaltrust/FederalTrustView.jsx";
+import { IdaEliteView } from "../idaElite/IdaEliteView.jsx";
 import { ModuleView } from "../modules/ModuleView.jsx";
 import { Sidebar } from "../../shared/ui/Sidebar.jsx";
 import { Topbar } from "../../shared/ui/Topbar.jsx";
@@ -34,6 +36,7 @@ const iconMap = {
   referees: ClipboardCheck,
   discipline: Gavel,
   federaltrust: ScrollText,
+  idaElite: Brain,
   staff: Dumbbell,
   scouting: UsersRound,
   health: HeartPulse,
@@ -149,6 +152,8 @@ export function App() {
           />
         ) : activeModuleId === "federaltrust" ? (
           <FederalTrustView />
+        ) : activeModuleId === "idaElite" ? (
+          <IdaEliteView />
         ) : (
           <ModuleView module={activeModule} />
         )}

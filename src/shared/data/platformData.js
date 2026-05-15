@@ -77,6 +77,30 @@ export const modules = [
     launchPath: "./federaltrust/index.html"
   },
   {
+    id: "idaElite",
+    name: "I.D.A. Elite",
+    stage: "Sport Intelligence System",
+    priority: "Alta",
+    description:
+      "Capa premium de inteligencia deportiva avanzada para ciencia aplicada, biometria, analytics, medicina, scouting y desarrollo integral del atleta.",
+    outcome:
+      "Convierte PCD Pro en un sistema operativo deportivo federado con inteligencia predictiva, proteccion del deportista y decisiones profesionales basadas en evidencia.",
+    entities: [
+      "athlete_intelligence_profiles",
+      "biometric_records",
+      "performance_analytics",
+      "medical_protocols",
+      "ai_insights",
+      "federaltrust_evidence"
+    ],
+    flows: [
+      "Monitorear riesgo, carga, recuperacion y evolucion integral",
+      "Cargar biometria deportiva y comparar historicos",
+      "Analizar perfil 360, scouting, medicina, psicologia y bienestar",
+      "Generar insights IA y evidencia compatible con FederalTrust"
+    ]
+  },
+  {
     id: "identity",
     name: "Identidad digital",
     stage: "Seguridad y trazabilidad",

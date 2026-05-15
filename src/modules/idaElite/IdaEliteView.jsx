@@ -141,6 +141,41 @@ const auditTrail = [
   ["Scout Regional", "observacion de potencial", "pendiente federacion", "Hash FT-19BF"]
 ];
 
+const contentTypes = [
+  "Plan de mejora",
+  "Seguimiento semanal",
+  "Evaluacion tecnica",
+  "Reporte medico",
+  "Informe psicologico",
+  "Plan PF",
+  "Reporte scouting",
+  "Consentimiento / evidencia"
+];
+
+const initialWorkItems = [
+  {
+    title: "Plan de potencia y recuperacion",
+    type: "Plan PF",
+    owner: "PF Martin Costa",
+    status: "en progreso",
+    nextStep: "validar carga semanal y descanso"
+  },
+  {
+    title: "Reporte de proyeccion regional",
+    type: "Reporte scouting",
+    owner: "Scout Regional",
+    status: "pendiente FederalTrust",
+    nextStep: "firma institucional y QR verificable"
+  },
+  {
+    title: "Seguimiento emocional competitivo",
+    type: "Informe psicologico",
+    owner: "Psicologia deportiva",
+    status: "privado",
+    nextStep: "actualizar observacion profesional"
+  }
+];
+
 const profileAreas = [
   ["Tecnica", 86, "control, pase, definicion, vision y posicionamiento"],
   ["Fisica", 82, "velocidad, fuerza, resistencia y explosion"],
@@ -235,6 +270,14 @@ export function IdaEliteView() {
     role: "preparador fisico",
     validation: "pendiente FederalTrust"
   });
+  const [workItems, setWorkItems] = useState(initialWorkItems);
+  const [workForm, setWorkForm] = useState({
+    title: "Plan individual de evolucion",
+    type: "Plan de mejora",
+    owner: "Director tecnico",
+    status: "borrador",
+    nextStep: "definir objetivos y metricas"
+  });
 
   const biometricScore = useMemo(
     () => Math.round(records.reduce((sum, item) => sum + Number(item.score), 0) / records.length),
@@ -251,6 +294,17 @@ export function IdaEliteView() {
         score: Math.max(0, Math.min(100, Number(biometricForm.score) || 0))
       },
       ...current.slice(0, 9)
+    ]);
+  }
+
+  function saveWorkItem(event) {
+    event.preventDefault();
+    setWorkItems((current) => [
+      {
+        ...workForm,
+        athlete: selectedAthlete.name
+      },
+      ...current.slice(0, 5)
     ]);
   }
 
@@ -293,8 +347,9 @@ export function IdaEliteView() {
       </nav>
 
       {activeTab === "access" && (
-        <section className="module-grid">
-          <article className="panel span-7 ida-panel">
+        <>
+          <section className="module-grid">
+            <article className="panel span-7 ida-panel">
             <div className="section-title">
               <div>
                 <p className="eyebrow">Acceso controlado</p>
@@ -340,8 +395,8 @@ export function IdaEliteView() {
                 </article>
               ))}
             </div>
-          </article>
-          <article className="panel span-5 ida-panel">
+            </article>
+            <article className="panel span-5 ida-panel">
             <div className="section-title">
               <div>
                 <p className="eyebrow">Registro de accion</p>
@@ -394,8 +449,95 @@ export function IdaEliteView() {
                 </article>
               ))}
             </div>
-          </article>
-        </section>
+            </article>
+          </section>
+
+          <section className="module-grid">
+            <article className="panel span-5 ida-panel">
+              <div className="section-title">
+                <div>
+                  <p className="eyebrow">Crear contenido operativo</p>
+                  <h2>Planes, reportes y seguimientos</h2>
+                </div>
+                <ClipboardList size={22} />
+              </div>
+              <form className="ida-form" onSubmit={saveWorkItem}>
+                <label>
+                  Titulo
+                  <input
+                    value={workForm.title}
+                    onChange={(event) => setWorkForm({ ...workForm, title: event.target.value })}
+                  />
+                </label>
+                <label>
+                  Funcion
+                  <select
+                    value={workForm.type}
+                    onChange={(event) => setWorkForm({ ...workForm, type: event.target.value })}
+                  >
+                    {contentTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  Responsable
+                  <input
+                    value={workForm.owner}
+                    onChange={(event) => setWorkForm({ ...workForm, owner: event.target.value })}
+                  />
+                </label>
+                <label>
+                  Estado del proceso
+                  <select
+                    value={workForm.status}
+                    onChange={(event) => setWorkForm({ ...workForm, status: event.target.value })}
+                  >
+                    <option>borrador</option>
+                    <option>en progreso</option>
+                    <option>pendiente FederalTrust</option>
+                    <option>privado</option>
+                    <option>validado</option>
+                  </select>
+                </label>
+                <label>
+                  Proximo paso
+                  <input
+                    value={workForm.nextStep}
+                    onChange={(event) => setWorkForm({ ...workForm, nextStep: event.target.value })}
+                  />
+                </label>
+                <button className="button primary" type="submit">
+                  Crear proceso
+                </button>
+              </form>
+            </article>
+            <article className="panel span-7 ida-panel">
+              <div className="section-title">
+                <div>
+                  <p className="eyebrow">Procesos del jugador</p>
+                  <h2>Contenido vivo dentro de I.D.A. Elite</h2>
+                </div>
+                <FileText size={22} />
+              </div>
+              <div className="ida-workflow-list">
+                {workItems.map((item) => (
+                  <article key={`${item.title}-${item.owner}`}>
+                    <div>
+                      <strong>{item.title}</strong>
+                      <span>{item.type} - {item.owner}</span>
+                      <p>{item.nextStep}</p>
+                    </div>
+                    <StatusPill tone={item.status === "validado" ? "success" : "warning"}>{item.status}</StatusPill>
+                    <small>{item.athlete ?? selectedAthlete.name}</small>
+                  </article>
+                ))}
+              </div>
+            </article>
+          </section>
+        </>
       )}
 
       {activeTab === "command" && (

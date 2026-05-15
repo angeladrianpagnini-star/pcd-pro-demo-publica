@@ -1217,7 +1217,8 @@ h3 {
 .ida-bars,
 .ida-protocols,
 .ida-permissions,
-.ida-audit-list {
+.ida-audit-list,
+.ida-workflow-list {
   display: grid;
   gap: 12px;
 }
@@ -1271,6 +1272,7 @@ h3 {
 .ida-source-grid article,
 .ida-access-card,
 .ida-audit-list article,
+.ida-workflow-list article,
 .ida-context-strip {
   display: grid;
   gap: 8px;
@@ -1375,27 +1377,69 @@ h3 {
 }
 
 .ida-source-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .ida-source-grid article {
+  grid-template-columns: auto minmax(0, 1fr);
   align-content: start;
-  min-height: 154px;
+  align-items: start;
+  min-height: 132px;
+}
+
+.ida-source-grid article svg {
+  margin-top: 2px;
+}
+
+.ida-source-grid article strong,
+.ida-source-grid article p,
+.ida-source-grid article .ida-bar-track {
+  grid-column: 2;
+}
+
+.ida-source-grid article p {
+  margin-bottom: 4px;
+  font-size: 15px;
+  line-height: 1.35;
 }
 
 .ida-audit-list {
   margin-top: 14px;
 }
 
-.ida-audit-list article {
+.ida-audit-list article,
+.ida-workflow-list article {
   min-height: auto;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
 }
 
 .ida-audit-list span,
-.ida-audit-list small {
+.ida-audit-list small,
+.ida-workflow-list span,
+.ida-workflow-list small,
+.ida-workflow-list p {
   font-size: 13px;
+}
+
+.ida-workflow-list article {
+  grid-template-columns: minmax(0, 1fr) auto 120px;
+  padding: 16px;
+}
+
+.ida-workflow-list article > div {
+  display: grid;
+  gap: 5px;
+}
+
+.ida-workflow-list p {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.ida-workflow-list small {
+  color: var(--muted);
+  text-align: right;
 }
 
 .ida-context-strip {
@@ -1612,8 +1656,13 @@ h3 {
   .ida-bar-row,
   .ida-profile-grid article div,
   .ida-protocols article,
-  .ida-permissions div {
+  .ida-permissions div,
+  .ida-workflow-list article {
     grid-template-columns: 1fr;
+  }
+
+  .ida-workflow-list small {
+    text-align: left;
   }
 
   .audit-meta {

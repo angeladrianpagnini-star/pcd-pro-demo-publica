@@ -3,11 +3,14 @@ import {
   Activity,
   BadgeCheck,
   Brain,
+  ClipboardList,
   Cross,
+  Database,
   Eye,
   FileText,
   Gauge,
   HeartPulse,
+  KeyRound,
   LineChart,
   Lock,
   Radar,
@@ -21,6 +24,7 @@ import {
 import { StatusPill } from "../../shared/ui/StatusPill.jsx";
 
 const tabs = [
+  { id: "access", label: "Acceso y carga", Icon: KeyRound },
   { id: "command", label: "Dashboard", Icon: Gauge },
   { id: "biometrics", label: "Biometria", Icon: Activity },
   { id: "profile", label: "Perfil 360", Icon: UsersRound },
@@ -46,6 +50,7 @@ const kpis = [
 
 const athletes = [
   {
+    id: "mateo",
     name: "Mateo Alvarez",
     age: 16,
     club: "Club Norte",
@@ -54,9 +59,14 @@ const athletes = [
     projection: 94,
     risk: "Bajo",
     trend: "Ascendente",
-    segment: "13-17"
+    segment: "13-17",
+    access: "Activo I.D.A. Elite",
+    source: "Club + PF + medico",
+    profileValue: 87,
+    ecosystemSignals: 14
   },
   {
+    id: "lucia",
     name: "Lucia Ferreyra",
     age: 15,
     club: "Liga Sur",
@@ -65,9 +75,14 @@ const athletes = [
     projection: 96,
     risk: "Controlado",
     trend: "Elite regional",
-    segment: "13-17"
+    segment: "13-17",
+    access: "Activo I.D.A. Elite",
+    source: "Liga + scouting + club",
+    profileValue: 91,
+    ecosystemSignals: 18
   },
   {
+    id: "tomas",
     name: "Tomas Benitez",
     age: 11,
     club: "Escuela Federal",
@@ -76,8 +91,54 @@ const athletes = [
     projection: 86,
     risk: "Pedagogico",
     trend: "Desarrollo saludable",
-    segment: "5-12"
+    segment: "5-12",
+    access: "Base interna protegida",
+    source: "Escuela + tutor + torneo",
+    profileValue: 72,
+    ecosystemSignals: 9
+  },
+  {
+    id: "valentina",
+    name: "Valentina Rios",
+    age: 17,
+    club: "Sin alta en capa",
+    role: "Arquera",
+    index: 81,
+    projection: 89,
+    risk: "Pendiente",
+    trend: "Prospecto a validar",
+    segment: "13-17",
+    access: "Prospecto consultable",
+    source: "Partidos + scouting + disciplina",
+    profileValue: 64,
+    ecosystemSignals: 7
   }
+];
+
+const ecosystemInputs = [
+  ["PCD Pro Core", "fichas, partidos, clubes, arbitraje y disciplina", 82],
+  ["FederalTrust", "consentimientos, hashes, firmas, QR y cadena de custodia", 94],
+  ["Scouting", "observaciones, rankings, comparativas y alertas de talento", 78],
+  ["Salud y soporte", "aptos, lesiones, restricciones y seguimiento medico", 86],
+  ["Juego DT", "engagement, habitos, participacion y objetivos cumplidos", 69]
+];
+
+const loaderRoles = [
+  "club",
+  "director tecnico",
+  "preparador fisico",
+  "medico",
+  "scout",
+  "psicologo",
+  "familia/tutor",
+  "auditor",
+  "administrador"
+];
+
+const auditTrail = [
+  ["PF Martin Costa", "carga biometrica", "validado por club", "Hash FT-8A92"],
+  ["Dra. Paula Marino", "restriccion medica", "requiere firma medica", "Hash FT-4421"],
+  ["Scout Regional", "observacion de potencial", "pendiente federacion", "Hash FT-19BF"]
 ];
 
 const profileAreas = [
@@ -161,13 +222,18 @@ function BarRow({ label, value, inverse = false }) {
 }
 
 export function IdaEliteView() {
-  const [activeTab, setActiveTab] = useState("command");
+  const [activeTab, setActiveTab] = useState("access");
+  const [selectedAthleteId, setSelectedAthleteId] = useState(athletes[0].id);
+  const selectedAthlete = athletes.find((athlete) => athlete.id === selectedAthleteId) ?? athletes[0];
   const [records, setRecords] = useState(initialBiometrics);
   const [biometricForm, setBiometricForm] = useState({
     metric: "Recuperacion",
     value: "86%",
     delta: "+5%",
-    score: 86
+    score: 86,
+    loadedBy: "PF Martin Costa",
+    role: "preparador fisico",
+    validation: "pendiente FederalTrust"
   });
 
   const biometricScore = useMemo(
@@ -180,6 +246,8 @@ export function IdaEliteView() {
     setRecords((current) => [
       {
         ...biometricForm,
+        athlete: selectedAthlete.name,
+        validatedBy: biometricForm.role,
         score: Math.max(0, Math.min(100, Number(biometricForm.score) || 0))
       },
       ...current.slice(0, 9)
@@ -198,10 +266,15 @@ export function IdaEliteView() {
             psicologia, scouting inteligente, AI Insights, proteccion infanto juvenil y evidencia
             compatible con FederalTrust.
           </p>
+          <div className="ida-hero-status">
+            <StatusPill tone="success">Acceso por permisos</StatusPill>
+            <StatusPill tone="info">Valor de perfil aun sin alta completa</StatusPill>
+            <StatusPill tone="warning">Cargas trazables por responsable</StatusPill>
+          </div>
         </div>
         <div className="ida-hero-metrics">
-          <ScoreRing value={91} label="potencial" />
-          <ScoreRing value={84} label="indice jugador" />
+          <ScoreRing value={selectedAthlete.projection} label="potencial" />
+          <ScoreRing value={selectedAthlete.profileValue} label="valor perfil" />
         </div>
       </section>
 
@@ -219,8 +292,132 @@ export function IdaEliteView() {
         ))}
       </nav>
 
+      {activeTab === "access" && (
+        <section className="module-grid">
+          <article className="panel span-7 ida-panel">
+            <div className="section-title">
+              <div>
+                <p className="eyebrow">Acceso controlado</p>
+                <h2>Jugador, permisos y valor disponible</h2>
+              </div>
+              <KeyRound size={22} />
+            </div>
+            <div className="ida-access-layout">
+              <label>
+                Jugador consultado
+                <select value={selectedAthleteId} onChange={(event) => setSelectedAthleteId(event.target.value)}>
+                  {athletes.map((athlete) => (
+                    <option key={athlete.id} value={athlete.id}>
+                      {athlete.name} - {athlete.access}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <div className="ida-access-card">
+                <div>
+                  <strong>{selectedAthlete.name}</strong>
+                  <span>{selectedAthlete.role} - {selectedAthlete.age} anos - {selectedAthlete.segment}</span>
+                </div>
+                <StatusPill tone={selectedAthlete.access.includes("Activo") ? "success" : "warning"}>
+                  {selectedAthlete.access}
+                </StatusPill>
+                <p>
+                  Valor actual del perfil: <b>{selectedAthlete.profileValue}/100</b>. Se calcula con
+                  {` ${selectedAthlete.ecosystemSignals} senales`} ya disponibles en el ecosistema,
+                  aunque el jugador o club todavia no haya activado la capa premium.
+                </p>
+              </div>
+            </div>
+            <div className="ida-source-grid">
+              {ecosystemInputs.map(([source, detail, score]) => (
+                <article key={source}>
+                  <Database size={18} />
+                  <strong>{source}</strong>
+                  <p>{detail}</p>
+                  <div className="ida-bar-track">
+                    <span style={{ width: `${score}%` }} />
+                  </div>
+                </article>
+              ))}
+            </div>
+          </article>
+          <article className="panel span-5 ida-panel">
+            <div className="section-title">
+              <div>
+                <p className="eyebrow">Registro de accion</p>
+                <h2>Quien carga y quien valida</h2>
+              </div>
+              <ClipboardList size={22} />
+            </div>
+            <form className="ida-form">
+              <label>
+                Responsable
+                <input
+                  value={biometricForm.loadedBy}
+                  onChange={(event) => setBiometricForm({ ...biometricForm, loadedBy: event.target.value })}
+                />
+              </label>
+              <label>
+                Rol habilitado
+                <select
+                  value={biometricForm.role}
+                  onChange={(event) => setBiometricForm({ ...biometricForm, role: event.target.value })}
+                >
+                  {loaderRoles.map((role) => (
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Validacion requerida
+                <select
+                  value={biometricForm.validation}
+                  onChange={(event) => setBiometricForm({ ...biometricForm, validation: event.target.value })}
+                >
+                  <option>pendiente FederalTrust</option>
+                  <option>validado por club</option>
+                  <option>requiere firma medica</option>
+                  <option>requiere tutor</option>
+                  <option>solo auditoria interna</option>
+                </select>
+              </label>
+            </form>
+            <div className="ida-audit-list">
+              {auditTrail.map(([person, action, status, hash]) => (
+                <article key={`${person}-${hash}`}>
+                  <strong>{person}</strong>
+                  <span>{action}</span>
+                  <StatusPill tone={status.includes("validado") ? "success" : "warning"}>{status}</StatusPill>
+                  <small>{hash}</small>
+                </article>
+              ))}
+            </div>
+          </article>
+        </section>
+      )}
+
       {activeTab === "command" && (
         <>
+          <section className="ida-context-strip">
+            <div>
+              <span>Perfil activo</span>
+              <strong>{selectedAthlete.name}</strong>
+            </div>
+            <div>
+              <span>Estado de acceso</span>
+              <strong>{selectedAthlete.access}</strong>
+            </div>
+            <div>
+              <span>Fuentes tomadas</span>
+              <strong>{selectedAthlete.source}</strong>
+            </div>
+            <div>
+              <span>Valor I.D.A.</span>
+              <strong>{selectedAthlete.profileValue}/100</strong>
+            </div>
+          </section>
           <section className="ida-kpi-grid">
             {kpis.map((item) => (
               <article className="ida-kpi" key={item.label}>
@@ -294,6 +491,7 @@ export function IdaEliteView() {
                   <span>{item.metric}</span>
                   <strong>{item.value}</strong>
                   <small>{item.delta}</small>
+                  {item.athlete && <small>{item.athlete} - {item.validatedBy}</small>}
                   <div className="ida-bar-track">
                     <span style={{ width: `${item.score}%` }} />
                   </div>
@@ -341,11 +539,47 @@ export function IdaEliteView() {
                   onChange={(event) => setBiometricForm({ ...biometricForm, score: event.target.value })}
                 />
               </label>
+              <label>
+                Responsable
+                <input
+                  value={biometricForm.loadedBy}
+                  onChange={(event) => setBiometricForm({ ...biometricForm, loadedBy: event.target.value })}
+                />
+              </label>
+              <label>
+                Rol
+                <select
+                  value={biometricForm.role}
+                  onChange={(event) => setBiometricForm({ ...biometricForm, role: event.target.value })}
+                >
+                  {loaderRoles.map((role) => (
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Validacion
+                <select
+                  value={biometricForm.validation}
+                  onChange={(event) => setBiometricForm({ ...biometricForm, validation: event.target.value })}
+                >
+                  <option>pendiente FederalTrust</option>
+                  <option>validado por club</option>
+                  <option>requiere firma medica</option>
+                  <option>requiere tutor</option>
+                  <option>solo auditoria interna</option>
+                </select>
+              </label>
               <button className="button primary" type="submit">
-                Guardar biometria
+                Guardar biometria trazable
               </button>
             </form>
-            <p className="ida-note">Preparado para wearables, API de laboratorio y sensores federados.</p>
+            <p className="ida-note">
+              La carga queda asociada a {selectedAthlete.name}, al responsable declarado y a una
+              validacion futura FederalTrust.
+            </p>
           </article>
         </section>
       )}
@@ -391,6 +625,7 @@ export function IdaEliteView() {
                 <div>
                   <strong>{athlete.name}</strong>
                   <span>{athlete.club} - {athlete.role} - {athlete.age} anos</span>
+                  <small>{athlete.access} - {athlete.source}</small>
                 </div>
                 <b>{athlete.index}</b>
                 <span>Proyeccion {athlete.projection}</span>

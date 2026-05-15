@@ -18,6 +18,7 @@ import {
   Sparkles,
   Target,
   Trophy,
+  UserPlus,
   UsersRound,
   Waves
 } from "lucide-react";
@@ -187,6 +188,13 @@ const subscriberSuggestions = [
   "Cruzar scouting, salud, disciplina, partidos y Juego DT para aumentar el valor I.D.A."
 ];
 
+const preliminaryMetrics = [
+  ["Potencial inicial", "Lectura de proyeccion con datos disponibles", 82],
+  ["Riesgo preventivo", "Senales basicas de carga, salud y continuidad", 28],
+  ["Evolucion visible", "Tendencia deportiva tomada del ecosistema PCD", 74],
+  ["Valor activable", "Impacto estimado si completa adhesion I.D.A.", 91]
+];
+
 const initialWorkItems = [
   {
     title: "Plan de potencia y recuperacion",
@@ -293,9 +301,20 @@ function BarRow({ label, value, inverse = false }) {
 
 export function IdaEliteView() {
   const [activeTab, setActiveTab] = useState("access");
+  const [createdAthletes, setCreatedAthletes] = useState([]);
+  const allAthletes = useMemo(() => [...athletes, ...createdAthletes], [createdAthletes]);
   const [selectedAthleteId, setSelectedAthleteId] = useState(athletes[0].id);
   const [accessMode, setAccessMode] = useState(accessModes[0]);
-  const selectedAthlete = athletes.find((athlete) => athlete.id === selectedAthleteId) ?? athletes[0];
+  const [expandedMetric, setExpandedMetric] = useState(preliminaryMetrics[0][0]);
+  const selectedAthlete = allAthletes.find((athlete) => athlete.id === selectedAthleteId) ?? allAthletes[0];
+  const [playerForm, setPlayerForm] = useState({
+    name: "Nuevo jugador",
+    age: "14",
+    club: "Club / institucion",
+    role: "Posicion o perfil",
+    segment: "13-17"
+  });
+  const [requests, setRequests] = useState([]);
   const [records, setRecords] = useState(initialBiometrics);
   const [biometricForm, setBiometricForm] = useState({
     action: "carga biometrica",
@@ -343,6 +362,41 @@ export function IdaEliteView() {
         athlete: selectedAthlete.name
       },
       ...current.slice(0, 5)
+    ]);
+  }
+
+  function createAthlete(event) {
+    event.preventDefault();
+    const newAthlete = {
+      id: `custom-${Date.now()}`,
+      name: playerForm.name,
+      age: Number(playerForm.age) || 0,
+      club: playerForm.club,
+      role: playerForm.role,
+      index: 62,
+      projection: 78,
+      risk: "Pendiente",
+      trend: "Vista preliminar creada",
+      segment: playerForm.segment,
+      access: "Prospecto consultable",
+      source: "Alta manual + datos a validar",
+      profileValue: 58,
+      ecosystemSignals: 2
+    };
+    setCreatedAthletes((current) => [...current, newAthlete]);
+    setSelectedAthleteId(newAthlete.id);
+    setAccessMode("Vista preliminar jugador/individuo");
+  }
+
+  function createAccessRequest(type) {
+    setAccessMode(type);
+    setRequests((current) => [
+      {
+        athlete: selectedAthlete.name,
+        type,
+        status: type.includes("Adhesion") ? "adhesion completa solicitada" : "vista preliminar solicitada"
+      },
+      ...current.slice(0, 3)
     ]);
   }
 
@@ -396,26 +450,28 @@ export function IdaEliteView() {
               <KeyRound size={22} />
             </div>
             <div className="ida-access-layout">
-              <label>
-                Jugador consultado
-                <select value={selectedAthleteId} onChange={(event) => setSelectedAthleteId(event.target.value)}>
-                  {athletes.map((athlete) => (
-                    <option key={athlete.id} value={athlete.id}>
-                      {athlete.name} - {athlete.access}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Tipo de acceso autorizado
-                <select value={accessMode} onChange={(event) => setAccessMode(event.target.value)}>
-                  {accessModes.map((mode) => (
-                    <option key={mode} value={mode}>
-                      {mode}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <div className="ida-access-controls">
+                <label>
+                  Seleccionar jugador cargado
+                  <select value={selectedAthleteId} onChange={(event) => setSelectedAthleteId(event.target.value)}>
+                    {allAthletes.map((athlete) => (
+                      <option key={athlete.id} value={athlete.id}>
+                        {athlete.name} - {athlete.access}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  Tipo de acceso autorizado
+                  <select value={accessMode} onChange={(event) => setAccessMode(event.target.value)}>
+                    {accessModes.map((mode) => (
+                      <option key={mode} value={mode}>
+                        {mode}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
               <div className="ida-access-card">
                 <div>
                   <strong>{selectedAthlete.name}</strong>
@@ -430,15 +486,93 @@ export function IdaEliteView() {
                   aunque el jugador o club todavia no haya activado la capa premium.
                 </p>
                 <div className="ida-action-row">
-                  <button className="button secondary" type="button">
+                  <button className="button secondary" onClick={() => createAccessRequest("Vista preliminar jugador/individuo")} type="button">
                     Solicitar vista preliminar
                   </button>
-                  <button className="button primary" type="button">
+                  <button className="button primary" onClick={() => createAccessRequest("Adhesion completa solicitada")} type="button">
                     Solicitar adhesion completa
                   </button>
                 </div>
               </div>
+              <form className="ida-new-player" onSubmit={createAthlete}>
+                <div>
+                  <UserPlus size={18} />
+                  <strong>Cargar jugador nuevo</strong>
+                </div>
+                <input
+                  value={playerForm.name}
+                  onChange={(event) => setPlayerForm({ ...playerForm, name: event.target.value })}
+                  aria-label="Nombre del jugador"
+                />
+                <div className="ida-inline-fields">
+                  <input
+                    value={playerForm.age}
+                    onChange={(event) => setPlayerForm({ ...playerForm, age: event.target.value })}
+                    aria-label="Edad"
+                  />
+                  <select
+                    value={playerForm.segment}
+                    onChange={(event) => setPlayerForm({ ...playerForm, segment: event.target.value })}
+                    aria-label="Segmento"
+                  >
+                    <option>5-12</option>
+                    <option>13-17</option>
+                    <option>adulto</option>
+                  </select>
+                </div>
+                <input
+                  value={playerForm.club}
+                  onChange={(event) => setPlayerForm({ ...playerForm, club: event.target.value })}
+                  aria-label="Club o institucion"
+                />
+                <input
+                  value={playerForm.role}
+                  onChange={(event) => setPlayerForm({ ...playerForm, role: event.target.value })}
+                  aria-label="Posicion o perfil"
+                />
+                <button className="button secondary" type="submit">
+                  Cargar y consultar
+                </button>
+              </form>
             </div>
+            <div className="ida-preliminary">
+              <div className="ida-preliminary-head">
+                <div>
+                  <p className="eyebrow">Vista preliminar generica</p>
+                  <h3>Metricas iniciales con opcion de profundizar</h3>
+                </div>
+                <StatusPill tone="info">{accessMode}</StatusPill>
+              </div>
+              <div className="ida-preliminary-grid">
+                {preliminaryMetrics.map(([metric, detail, score]) => (
+                  <button
+                    className={expandedMetric === metric ? "active" : ""}
+                    key={metric}
+                    onClick={() => setExpandedMetric(metric)}
+                    type="button"
+                  >
+                    <span>{metric}</span>
+                    <strong>{score}</strong>
+                    <small>{detail}</small>
+                  </button>
+                ))}
+              </div>
+              <p>
+                Profundizacion seleccionada: <b>{expandedMetric}</b>. Para abrir el modelo especifico se requiere
+                adhesion completa, permisos del titular/institucion y validacion FederalTrust segun el dato cargado.
+              </p>
+            </div>
+            {requests.length > 0 && (
+              <div className="ida-request-list">
+                {requests.map((request) => (
+                  <article key={`${request.athlete}-${request.status}`}>
+                    <strong>{request.athlete}</strong>
+                    <span>{request.type}</span>
+                    <StatusPill tone={request.status.includes("adhesion") ? "success" : "info"}>{request.status}</StatusPill>
+                  </article>
+                ))}
+              </div>
+            )}
             <div className="ida-preview-grid">
               {tentativeModels.map(([title, detail], index) => (
                 <article key={title} className={index === 2 && accessMode === "Suscripto con login" ? "active" : ""}>

@@ -1713,13 +1713,16 @@ h3 {
   grid-template-columns: minmax(0, 1fr) 360px;
   gap: 22px;
   align-items: center;
+  min-height: 430px;
   border: 1px solid var(--rec-line);
   border-radius: 8px;
-  padding: 28px;
+  padding: 36px 42px;
   background:
-    linear-gradient(135deg, rgba(15, 94, 168, 0.12), rgba(15, 159, 143, 0.09)),
-    #ffffff;
+    linear-gradient(90deg, rgba(255, 255, 255, 0.96) 0 38%, rgba(239, 248, 255, 0.72) 58%, rgba(224, 246, 248, 0.5)),
+    url("../assets/recursero-hero.png") right center / cover no-repeat,
+    #eef8fb;
   box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
 .recursero-hero h1 {
@@ -1738,8 +1741,9 @@ h3 {
   border: 1px solid #f3c37b;
   border-radius: 8px;
   padding: 18px;
-  background: #fff8ed;
+  background: rgba(255, 248, 237, 0.94);
   color: var(--rec-ink);
+  backdrop-filter: blur(2px);
 }
 
 .recursero-urgent span,
@@ -1756,6 +1760,7 @@ h3 {
 
 .recursero-panel {
   border-color: var(--rec-line);
+  overflow: hidden;
 }
 
 .recursero-risk-grid,
@@ -1829,12 +1834,21 @@ h3 {
 .recursero-search input,
 .recursero-form input,
 .recursero-form select {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   min-height: 42px;
   border: 1px solid var(--rec-line);
   border-radius: 8px;
   padding: 9px 10px;
   background: #ffffff;
   font: inherit;
+}
+
+.recursero-form input[type="file"] {
+  min-height: auto;
+  overflow: hidden;
+  font-size: 14px;
 }
 
 .recursero-resource-list a {

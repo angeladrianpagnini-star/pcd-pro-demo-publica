@@ -10,6 +10,7 @@ import {
   Gavel,
   Gamepad2,
   HeartPulse,
+  LifeBuoy,
   Radio,
   ScrollText,
   ShieldCheck,
@@ -23,6 +24,7 @@ import { CoverView } from "../cover/CoverView.jsx";
 import { DashboardView } from "../dashboard/DashboardView.jsx";
 import { FederalTrustView } from "../federaltrust/FederalTrustView.jsx";
 import { IdaEliteView } from "../idaElite/IdaEliteView.jsx";
+import { RecurseroView } from "../recursero/RecurseroView.jsx";
 import { ModuleView } from "../modules/ModuleView.jsx";
 import { Sidebar } from "../../shared/ui/Sidebar.jsx";
 import { Topbar } from "../../shared/ui/Topbar.jsx";
@@ -40,6 +42,7 @@ const iconMap = {
   staff: Dumbbell,
   scouting: UsersRound,
   health: HeartPulse,
+  recursero: LifeBuoy,
   payments: Banknote,
   streaming: Radio,
   game: Gamepad2
@@ -154,6 +157,8 @@ export function App() {
           <FederalTrustView />
         ) : activeModuleId === "idaElite" ? (
           <IdaEliteView />
+        ) : activeModuleId === "recursero" ? (
+          <RecurseroView />
         ) : (
           <ModuleView module={activeModule} />
         )}

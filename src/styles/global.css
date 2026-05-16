@@ -1693,6 +1693,169 @@ h3 {
   color: #ffffff;
 }
 
+.recursero-view {
+  --rec-ink: #102033;
+  --rec-blue: #0f5ea8;
+  --rec-teal: #0f9f8f;
+  --rec-line: #cbd8e7;
+}
+
+.recursero-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 22px;
+  align-items: center;
+  border: 1px solid var(--rec-line);
+  border-radius: 8px;
+  padding: 28px;
+  background:
+    linear-gradient(135deg, rgba(15, 94, 168, 0.12), rgba(15, 159, 143, 0.09)),
+    #ffffff;
+  box-shadow: var(--shadow);
+}
+
+.recursero-hero h1 {
+  font-size: clamp(42px, 6vw, 74px);
+}
+
+.recursero-hero p {
+  max-width: 860px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.recursero-urgent {
+  display: grid;
+  gap: 9px;
+  border: 1px solid #f3c37b;
+  border-radius: 8px;
+  padding: 18px;
+  background: #fff8ed;
+  color: var(--rec-ink);
+}
+
+.recursero-urgent span,
+.recursero-risk-grid p,
+.recursero-risk-grid span,
+.recursero-analysis p,
+.recursero-resource-list p,
+.recursero-resource-list span,
+.recursero-location p,
+.recursero-materials span {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.recursero-panel {
+  border-color: var(--rec-line);
+}
+
+.recursero-risk-grid,
+.recursero-analysis,
+.recursero-resource-list,
+.recursero-network,
+.recursero-materials {
+  display: grid;
+  gap: 12px;
+}
+
+.recursero-risk-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.recursero-risk-grid article,
+.recursero-analysis article,
+.recursero-resource-list article,
+.recursero-location,
+.recursero-materials article {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--rec-line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #ffffff;
+}
+
+.recursero-risk-grid article > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.recursero-resource-list article,
+.recursero-materials article {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+}
+
+.recursero-textarea {
+  width: 100%;
+  min-height: 150px;
+  resize: vertical;
+  border: 1px solid var(--rec-line);
+  border-radius: 8px;
+  padding: 12px;
+  font: inherit;
+}
+
+.recursero-search,
+.recursero-form {
+  display: grid;
+  gap: 12px;
+}
+
+.recursero-search {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 14px;
+}
+
+.recursero-search label,
+.recursero-form label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.recursero-search input,
+.recursero-form input,
+.recursero-form select {
+  min-height: 42px;
+  border: 1px solid var(--rec-line);
+  border-radius: 8px;
+  padding: 9px 10px;
+  background: #ffffff;
+  font: inherit;
+}
+
+.recursero-resource-list a {
+  color: var(--rec-blue);
+  font-weight: 900;
+}
+
+.recursero-network {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.recursero-network span {
+  border: 1px solid var(--rec-line);
+  border-radius: 8px;
+  padding: 10px;
+  background: #f8fbff;
+  font-weight: 800;
+}
+
+.recursero-location {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  margin-top: 14px;
+}
+
+.recursero-materials article {
+  align-items: center;
+}
+
 .ida-profile-grid article div,
 .ida-athlete-table article,
 .ida-bar-row,
@@ -1810,6 +1973,10 @@ h3 {
   .ida-preview-grid,
   .ida-preliminary-grid,
   .ida-access-layout,
+  .recursero-hero,
+  .recursero-risk-grid,
+  .recursero-search,
+  .recursero-network,
   .ida-context-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1818,6 +1985,7 @@ h3 {
   .admin-create-layout,
   .federaltrust-hero,
   .ida-hero,
+  .recursero-hero,
   .span-12,
   .two-column .panel,
   .span-7,
@@ -1862,6 +2030,11 @@ h3 {
   .ida-access-controls,
   .ida-action-form,
   .ida-action-summary,
+  .recursero-risk-grid,
+  .recursero-search,
+  .recursero-network,
+  .recursero-resource-list article,
+  .recursero-materials article,
   .ida-request-list article,
   .ida-context-strip {
     grid-template-columns: 1fr;

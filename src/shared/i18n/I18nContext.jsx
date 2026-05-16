@@ -111,6 +111,7 @@ const dictionaries = {
       staff: "DT/PF y capacitacion",
       scouting: "Scouting",
       health: "Salud y soporte",
+      recursero: "Recursero",
       payments: "Pagos",
       streaming: "Streaming",
       game: "Juego DT"
@@ -224,6 +225,7 @@ const dictionaries = {
       staff: "Coaches and training",
       scouting: "Scouting",
       health: "Health and support",
+      recursero: "Resource hub",
       payments: "Payments",
       streaming: "Streaming",
       game: "Juego DT"

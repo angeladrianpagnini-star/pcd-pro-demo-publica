@@ -227,6 +227,23 @@ export const modules = [
     ]
   },
   {
+    id: "recursero",
+    name: "Recursero",
+    stage: "Prevencion y orientacion",
+    priority: "Alta",
+    description:
+      "Herramienta transversal para orientar ante riesgos, vulnerabilidades y alertas que atraviesan chicos, adolescentes, familias e instituciones.",
+    outcome:
+      "Centraliza protocolos, lineas oficiales, organismos competentes, carga de material preventivo y analisis inicial de situaciones para definir caminos de accion.",
+    entities: ["prevention_resources", "risk_cases", "official_protocols", "support_networks", "training_materials"],
+    flows: [
+      "Buscar lineas y organismos oficiales por tema o territorio",
+      "Cargar videos, charlas y materiales de prevencion",
+      "Plantear una situacion y recibir orientacion de primeros pasos",
+      "Derivar a servicios locales, justicia, salud mental o profesionales competentes"
+    ]
+  },
+  {
     id: "payments",
     name: "Pagos",
     stage: "Sustentabilidad",

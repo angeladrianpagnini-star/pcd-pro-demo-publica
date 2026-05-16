@@ -23,6 +23,7 @@ import { LoginView } from "../auth/LoginView.jsx";
 import { CoverView } from "../cover/CoverView.jsx";
 import { DashboardView } from "../dashboard/DashboardView.jsx";
 import { FederalTrustView } from "../federaltrust/FederalTrustView.jsx";
+import { HealthView } from "../health/HealthView.jsx";
 import { IdaEliteView } from "../idaElite/IdaEliteView.jsx";
 import { RecurseroView } from "../recursero/RecurseroView.jsx";
 import { ModuleView } from "../modules/ModuleView.jsx";
@@ -159,6 +160,8 @@ export function App() {
           <IdaEliteView />
         ) : activeModuleId === "recursero" ? (
           <RecurseroView />
+        ) : activeModuleId === "health" ? (
+          <HealthView />
         ) : (
           <ModuleView module={activeModule} />
         )}

@@ -113,9 +113,76 @@ const professionalNetwork = [
 ];
 
 const initialMaterials = [
-  { title: "Charla para familias sobre alertas tempranas", type: "video", audience: "familias", status: "publicable" },
-  { title: "Protocolo interno ante violencia o abuso", type: "documento", audience: "clubes", status: "revision" },
-  { title: "Guia rapida de cyberacoso y grooming", type: "pdf", audience: "adolescentes", status: "publicable" }
+  {
+    title: "Guia para padres, familias y docentes: grooming",
+    type: "guia oficial",
+    audience: "familias y docentes",
+    topic: "grooming / riesgos digitales",
+    status: "publicable",
+    source: "Argentina.gob.ar",
+    url: "https://www.argentina.gob.ar/justicia/convosenlaweb/situaciones/guia-para-padres-familias-y-docentes-grooming",
+    action: "leer antes de intervenir, preservar evidencia y activar consulta si hay sospecha"
+  },
+  {
+    title: "Grooming: guia de actividades",
+    type: "material didactico",
+    audience: "clubes y escuelas",
+    topic: "prevencion digital",
+    status: "publicable",
+    source: "Argentina.gob.ar",
+    url: "https://www.argentina.gob.ar/sites/default/files/grooming-guia-de-actividades.pdf",
+    action: "usar en talleres con adolescentes, familias y referentes deportivos"
+  },
+  {
+    title: "Decalogo grooming para familias",
+    type: "documento breve",
+    audience: "familias",
+    topic: "grooming / cuidado digital",
+    status: "publicable",
+    source: "Argentina.gob.ar",
+    url: "https://www.argentina.gob.ar/sites/default/files/decalogo_grooming_para_familias.pdf",
+    action: "compartir como pauta rapida de prevencion y alerta"
+  },
+  {
+    title: "Decalogo grooming comunidad educativa",
+    type: "documento breve",
+    audience: "instituciones",
+    topic: "grooming / protocolo escolar",
+    status: "publicable",
+    source: "Argentina.gob.ar",
+    url: "https://www.argentina.gob.ar/sites/default/files/decalogo_grooming_comunidad_educativa.pdf",
+    action: "adaptar a clubes, escuelas deportivas y coordinadores"
+  },
+  {
+    title: "Biblioteca SEDRONAR",
+    type: "biblioteca digital",
+    audience: "profesionales y familias",
+    topic: "consumos problematicos",
+    status: "publicable",
+    source: "Argentina.gob.ar",
+    url: "https://www.argentina.gob.ar/jefatura/sedronar/biblioteca",
+    action: "buscar material por consumo, prevencion y abordaje comunitario"
+  },
+  {
+    title: "Agente de prevencion ante consumos problematicos",
+    type: "material de formacion",
+    audience: "profes, clubes y talleres",
+    topic: "adicciones / prevencion",
+    status: "publicable",
+    source: "Argentina.gob.ar",
+    url: "https://www.argentina.gob.ar/actuar-como-agente-de-prevencion-ante-el-consumo-problematico-de-drogas-y-alcohol",
+    action: "formar referentes deportivos como agentes preventivos"
+  },
+  {
+    title: "Guia de informacion sobre relaciones de familia",
+    type: "guia juridica",
+    audience: "familias",
+    topic: "familia / acceso a derechos",
+    status: "publicable",
+    source: "CAJ - Argentina.gob.ar",
+    url: "https://www.argentina.gob.ar/justicia/afianzar/caj/conoce-y-ejerce-tus-derechos/guia-de-informacion-sobre-relaciones-de-familia",
+    action: "orientar ante conflictos familiares, cuidados, documentacion y derechos"
+  }
 ];
 
 function detectCase(text) {
@@ -152,7 +219,11 @@ export function RecurseroView() {
     title: "Taller de prevencion para familias",
     type: "video",
     audience: "familias",
-    status: "borrador"
+    topic: "prevencion",
+    status: "borrador",
+    source: "carga propia",
+    url: "",
+    action: "revisar y publicar con responsable institucional"
   });
 
   const filteredResources = useMemo(() => {
@@ -294,7 +365,7 @@ export function RecurseroView() {
       </section>
 
       <section className="module-grid">
-        <article className="panel span-5 recursero-panel">
+        <article className="panel span-4 recursero-panel">
           <div className="section-title">
             <div>
               <p className="eyebrow">Material preventivo</p>
@@ -315,6 +386,7 @@ export function RecurseroView() {
                 <option>documento</option>
                 <option>pdf</option>
                 <option>campana</option>
+                <option>guia oficial</option>
               </select>
             </label>
             <label>
@@ -328,6 +400,14 @@ export function RecurseroView() {
               </select>
             </label>
             <label>
+              Tema
+              <input value={materialForm.topic} onChange={(event) => setMaterialForm({ ...materialForm, topic: event.target.value })} />
+            </label>
+            <label>
+              Enlace externo
+              <input value={materialForm.url} onChange={(event) => setMaterialForm({ ...materialForm, url: event.target.value })} placeholder="https://..." />
+            </label>
+            <label>
               Archivo demo
               <input accept=".pdf,.doc,.docx,.mp4,.mov,.jpg,.png,.ppt,.pptx" type="file" />
             </label>
@@ -335,11 +415,11 @@ export function RecurseroView() {
           </form>
         </article>
 
-        <article className="panel span-7 recursero-panel">
+        <article className="panel span-8 recursero-panel">
           <div className="section-title">
             <div>
               <p className="eyebrow">Biblioteca viva</p>
-              <h2>Prevencion, charlas y protocolos</h2>
+              <h2>Recursos curados por problematica</h2>
             </div>
             <BookOpen size={22} />
           </div>
@@ -350,8 +430,18 @@ export function RecurseroView() {
                 <div>
                   <strong>{material.title}</strong>
                   <span>{material.type} - {material.audience}</span>
+                  <p>{material.topic}</p>
+                  <small>{material.action}</small>
                 </div>
-                <StatusPill tone={material.status === "publicable" ? "success" : "warning"}>{material.status}</StatusPill>
+                <div className="recursero-material-actions">
+                  <StatusPill tone={material.status === "publicable" ? "success" : "warning"}>{material.status}</StatusPill>
+                  {material.url && (
+                    <a href={material.url} rel="noreferrer" target="_blank">
+                      Abrir recurso
+                    </a>
+                  )}
+                  <span>{material.source}</span>
+                </div>
               </article>
             ))}
           </div>

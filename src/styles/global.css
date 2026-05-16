@@ -698,6 +698,14 @@ h3 {
   grid-column: span 7;
 }
 
+.span-8 {
+  grid-column: span 8;
+}
+
+.span-4 {
+  grid-column: span 4;
+}
+
 .span-5 {
   grid-column: span 5;
 }
@@ -1784,7 +1792,7 @@ h3 {
 
 .recursero-resource-list article,
 .recursero-materials article {
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr) minmax(150px, auto);
   align-items: start;
 }
 
@@ -1853,7 +1861,40 @@ h3 {
 }
 
 .recursero-materials article {
+  align-items: start;
+}
+
+.recursero-materials p,
+.recursero-materials small {
+  margin-bottom: 0;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.recursero-material-actions {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+}
+
+.recursero-material-actions a {
+  min-height: 34px;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  border: 1px solid var(--rec-line);
+  border-radius: 8px;
+  padding: 6px 10px;
+  background: #f8fbff;
+  color: var(--rec-blue);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.recursero-material-actions span {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: right;
 }
 
 .ida-profile-grid article div,
@@ -1988,6 +2029,8 @@ h3 {
   .recursero-hero,
   .span-12,
   .two-column .panel,
+  .span-8,
+  .span-4,
   .span-7,
   .span-5 {
     grid-column: 1 / -1;
@@ -2038,6 +2081,10 @@ h3 {
   .ida-request-list article,
   .ida-context-strip {
     grid-template-columns: 1fr;
+  }
+
+  .recursero-material-actions {
+    justify-items: start;
   }
 
   .ida-file-drop {

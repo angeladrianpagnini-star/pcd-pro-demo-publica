@@ -2178,6 +2178,118 @@ h3 {
   font-weight: 900;
 }
 
+.game-view {
+  --game-ink: #0b1020;
+  --game-cyan: #06b6d4;
+  --game-lime: #84cc16;
+  --game-violet: #7c3aed;
+  --game-line: #bdc9e6;
+}
+
+.game-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 22px;
+  align-items: center;
+  border: 1px solid #18213a;
+  border-radius: 8px;
+  padding: 30px;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(132, 204, 22, 0.24), transparent 34%),
+    linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(124, 58, 237, 0.22)),
+    linear-gradient(180deg, #151a2e, #080d1b);
+  color: #ffffff;
+  box-shadow: var(--shadow);
+}
+
+.game-hero h1 {
+  font-size: clamp(42px, 7vw, 78px);
+}
+
+.game-hero p,
+.game-launch-card span {
+  color: #d7e3f5;
+  line-height: 1.55;
+}
+
+.game-launch-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.game-launch-card .button {
+  text-align: center;
+  text-decoration: none;
+}
+
+.game-panel {
+  border-color: var(--game-line);
+}
+
+.game-mode-list,
+.game-flow,
+.game-next {
+  display: grid;
+  gap: 12px;
+}
+
+.game-mode-list article,
+.game-next article {
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--game-line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #ffffff;
+}
+
+.game-mode-list p,
+.game-flow p,
+.game-next span {
+  margin-bottom: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.game-embed {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #080d1b;
+}
+
+.game-embed iframe {
+  width: 100%;
+  min-height: 620px;
+  display: block;
+  border: 0;
+  background: #080d1b;
+}
+
+.game-flow div {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 10px;
+  align-items: start;
+  border-bottom: 1px solid var(--line);
+  padding: 10px 0;
+}
+
+.game-flow span {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #eafdd0;
+  color: #3f6212;
+  font-weight: 900;
+}
+
 .ida-profile-grid article div,
 .ida-athlete-table article,
 .ida-bar-row,
@@ -2302,6 +2414,7 @@ h3 {
   .health-hero,
   .health-metrics,
   .staff-hero,
+  .game-hero,
   .ida-context-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2368,6 +2481,8 @@ h3 {
   .health-products article,
   .staff-hero,
   .staff-flow div,
+  .game-hero,
+  .game-flow div,
   .ida-request-list article,
   .ida-context-strip {
     grid-template-columns: 1fr;

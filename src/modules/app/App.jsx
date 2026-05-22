@@ -26,7 +26,7 @@ import { FederalTrustView } from "../federaltrust/FederalTrustView.jsx";
 import { HealthView } from "../health/HealthView.jsx";
 import { IdaEliteView } from "../idaElite/IdaEliteView.jsx";
 import { RecurseroView } from "../recursero/RecurseroView.jsx";
-import { StaffView } from "../staff/StaffView.jsx";
+import { GameView } from "../game/GameView.jsx";
 import { ModuleView } from "../modules/ModuleView.jsx";
 import { Sidebar } from "../../shared/ui/Sidebar.jsx";
 import { Topbar } from "../../shared/ui/Topbar.jsx";
@@ -163,8 +163,8 @@ export function App() {
           <RecurseroView />
         ) : activeModuleId === "health" ? (
           <HealthView />
-        ) : activeModuleId === "staff" ? (
-          <StaffView />
+        ) : activeModuleId === "game" ? (
+          <GameView />
         ) : (
           <ModuleView module={activeModule} />
         )}

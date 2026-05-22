@@ -189,14 +189,13 @@ export const modules = [
     name: "DT/PF y capacitacion",
     stage: "Desarrollo deportivo",
     priority: "Media",
-    description: "Herramientas de evaluacion, medicion, entrenamientos, biblioteca de recursos y DT Digital Profesional.",
-    outcome: "Mejora la formacion y deja evidencia tecnica verificable por jugador, cuerpo tecnico y modelo de juego.",
-    entities: ["training_plans", "assessments", "test_results", "resources", "dt_digital_sessions"],
+    description: "Herramientas de evaluacion, medicion, entrenamientos y biblioteca de recursos.",
+    outcome: "Mejora la formacion y deja evidencia tecnica verificable por jugador.",
+    entities: ["training_plans", "assessments", "test_results", "resources"],
     flows: [
       "Cargar tests fisicos y tecnicos",
       "Subir evidencia audiovisual",
-      "Comparar evolucion por periodo",
-      "Abrir DT Digital Profesional como herramienta tactica y formativa"
+      "Comparar evolucion por periodo"
     ]
   },
   {
@@ -277,13 +276,14 @@ export const modules = [
     name: "Juego DT",
     stage: "Engagement deportivo",
     priority: "Media",
-    description: "Modulo digital y fisico de desafios, rankings, simulacion tactica y comunidad.",
-    outcome: "Potencia adopcion, retencion, sponsors y experiencias competitivas complementarias.",
-    entities: ["game_challenges", "rankings", "game_events", "sponsor_rewards"],
+    description: "Modulo gamer de desafios, rankings, simulacion tactica, comunidad y DT Digital Profesional.",
+    outcome: "Potencia adopcion, retencion, sponsors y experiencias competitivas complementarias con una capa gamer tactica.",
+    entities: ["game_challenges", "rankings", "game_events", "sponsor_rewards", "dt_digital_sessions"],
     flows: [
       "Crear retos tecnicos, fisicos, tacticos o cognitivos",
       "Asignar desafios por categoria",
-      "Generar rankings y experiencias presenciales"
+      "Generar rankings y experiencias presenciales",
+      "Abrir DT Digital Profesional como espacio gamer tactico"
     ]
   }
 ];

@@ -189,13 +189,14 @@ export const modules = [
     name: "DT/PF y capacitacion",
     stage: "Desarrollo deportivo",
     priority: "Media",
-    description: "Herramientas de evaluacion, medicion, entrenamientos y biblioteca de recursos.",
-    outcome: "Mejora la formacion y deja evidencia tecnica verificable por jugador.",
-    entities: ["training_plans", "assessments", "test_results", "resources"],
+    description: "Herramientas de evaluacion, medicion, entrenamientos, biblioteca de recursos y DT Digital Profesional.",
+    outcome: "Mejora la formacion y deja evidencia tecnica verificable por jugador, cuerpo tecnico y modelo de juego.",
+    entities: ["training_plans", "assessments", "test_results", "resources", "dt_digital_sessions"],
     flows: [
       "Cargar tests fisicos y tecnicos",
       "Subir evidencia audiovisual",
-      "Comparar evolucion por periodo"
+      "Comparar evolucion por periodo",
+      "Abrir DT Digital Profesional como herramienta tactica y formativa"
     ]
   },
   {

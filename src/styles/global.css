@@ -2066,6 +2066,118 @@ h3 {
   background: #fffaf0;
 }
 
+.staff-view {
+  --staff-ink: #111820;
+  --staff-gold: #c9891a;
+  --staff-green: #087f5b;
+  --staff-line: #d8c59a;
+}
+
+.staff-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 22px;
+  align-items: center;
+  border: 1px solid var(--staff-line);
+  border-radius: 8px;
+  padding: 28px;
+  background:
+    linear-gradient(135deg, rgba(17, 24, 32, 0.95), rgba(8, 127, 91, 0.78)),
+    #111820;
+  color: #ffffff;
+  box-shadow: var(--shadow);
+}
+
+.staff-hero h1 {
+  font-size: clamp(38px, 6vw, 70px);
+}
+
+.staff-hero p,
+.staff-tool-card span,
+.staff-tool-list p,
+.staff-flow p,
+.staff-next span {
+  color: #d7e1dd;
+  line-height: 1.5;
+}
+
+.staff-tool-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.staff-tool-card .button {
+  text-align: center;
+  text-decoration: none;
+}
+
+.staff-panel {
+  border-color: #d8e0cb;
+}
+
+.staff-tool-list,
+.staff-flow,
+.staff-next {
+  display: grid;
+  gap: 12px;
+}
+
+.staff-tool-list article,
+.staff-next article {
+  display: grid;
+  gap: 7px;
+  border: 1px solid #d8e0cb;
+  border-radius: 8px;
+  padding: 14px;
+  background: #ffffff;
+}
+
+.staff-tool-list p,
+.staff-flow p,
+.staff-next span {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.staff-embed {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #111820;
+}
+
+.staff-embed iframe {
+  width: 100%;
+  min-height: 620px;
+  display: block;
+  border: 0;
+  background: #111820;
+}
+
+.staff-flow div {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 10px;
+  align-items: start;
+  border-bottom: 1px solid var(--line);
+  padding: 10px 0;
+}
+
+.staff-flow span {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff3d7;
+  color: #8a5c00;
+  font-weight: 900;
+}
+
 .ida-profile-grid article div,
 .ida-athlete-table article,
 .ida-bar-row,
@@ -2189,6 +2301,7 @@ h3 {
   .recursero-network,
   .health-hero,
   .health-metrics,
+  .staff-hero,
   .ida-context-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2253,6 +2366,8 @@ h3 {
   .health-metrics,
   .health-steps div,
   .health-products article,
+  .staff-hero,
+  .staff-flow div,
   .ida-request-list article,
   .ida-context-strip {
     grid-template-columns: 1fr;
